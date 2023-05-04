@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "385959227937",
+    "project_id": "digitaldatatreeglobal",
+    "storage_bucket": "digitaldatatreeglobal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385959227937:android:76a9b3b64d26a3e670e960",
+        "android_client_info": {
+          "package_name": "com.example.digital_data_tree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385959227937-i75v5a6bni96gohgsv5ked5pc8g7imuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyxAxSiLjFCvZQmAWvBR4qvYmdxErk_HA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385959227937-i75v5a6bni96gohgsv5ked5pc8g7imuv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "385959227937-3luqq2h5pc8dl4nero824ijg3nqksqgt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.digitalDataTree"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
