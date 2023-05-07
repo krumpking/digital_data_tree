@@ -1,8 +1,10 @@
+import 'package:digital_data_tree/components/form_number_text.dart';
 import 'package:digital_data_tree/screens/home_screen/components/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../app/app_const.dart';
+import '../../components/form_long_text.dart';
 import 'components/search_bar.dart';
 
 class HomeScreen extends StatefulWidget {

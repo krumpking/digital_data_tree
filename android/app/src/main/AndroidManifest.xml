@@ -4,6 +4,9 @@
         android:label="digital_data_tree"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -21,6 +24,8 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+              <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB2h_YmVxQIVMQyiIhV2qPypa7YmoGoqlQ"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

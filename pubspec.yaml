@@ -40,6 +40,15 @@ dependencies:
   google_fonts: ^2.3.2
   firebase_auth: ^4.4.2
   loading_indicator: ^3.1.0
+  day_night_time_picker: ^1.2.0+2
+  syncfusion_flutter_datepicker: "20.4.44"
+  flutter_month_picker: ^0.0.1
+  scroll_date_picker: ^3.7.0
+  advance_image_picker: ^0.1.7+1
+  image_picker: ^0.8.7+4
+  file_picker: ^5.2.11
+  flutter_colorpicker: ^1.0.3
+  map_location_picker: ^1.1.0
 
 dev_dependencies:
   flutter_test:

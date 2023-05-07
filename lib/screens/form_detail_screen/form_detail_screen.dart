@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../components/form_location_picker.dart';
 
 class FormDetailScreen extends StatelessWidget {
-  const FormDetailScreen({Key? key}) : super(key: key);
+  FormDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView(
-        children: [Text("data")],
+        children: [FormLocationPicker.locationPicker(context)],
       ),
     );
   }
