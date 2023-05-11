@@ -8,12 +8,12 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double scale = MediaQuery.of(context).padding.top > 0.0 ? 0.7 : 1.0;
-    return Center(
+    return const Center(
         child: LoadingIndicator(
             indicatorType: Indicator.ballPulse,
 
             /// Required, The loading type of the widget
-            colors: const [AppColors.primaryColor],
+            colors: [AppColors.primaryColor],
 
             /// Optional, The color collections
             strokeWidth: 2,

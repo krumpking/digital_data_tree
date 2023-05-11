@@ -1,30 +1,53 @@
 import 'dart:io';
 
-import 'package:digital_data_tree/components/app_buttons.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../app/app_const.dart';
 
-class FormRangePicker {
-  static rangePicker(double min, double max, int divs) {
-    return Padding(
+class FormRangePicker extends StatefulWidget {
+  const FormRangePicker(
+      {Key? key, required this.func, required this.min, required this.max})
+      : super(key: key);
+
+  final Function func;
+  final double min;
+  final double max;
+
+  @override
+  FormRangePickerState createState() => FormRangePickerState();
+}
+
+class FormRangePickerState extends State<FormRangePicker> {
+  dynamic range;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        // backgroundColor: Colors.black,
+        body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: RangeSlider(
+        inactiveColor: Colors.grey,
         activeColor: AppColors.primaryColor,
-        values: RangeValues(min, max),
-        min: min,
-        max: max,
+        values: range ?? const RangeValues(0, 10),
+        min: widget.min,
+        max: widget.max,
         divisions: 5,
         labels: RangeLabels(
-          min.toString(),
-          max.toString(),
+          widget.min.toString(),
+          widget.max.toString(),
         ),
-        onChanged: (RangeValues values) {},
+        onChanged: (RangeValues values) {
+          setState(() {
+            range = values;
+          });
+          widget.func(values);
+        },
       ),
-    );
+    ));
+  }
+
+  static rangePicker(double min, double max, int divs) {
+    return;
   }
 }

@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormEmailText {
-  static emailText(
-      {required String hintText, TextEditingController? textController}) {
+  static String email = "";
+
+  static emailText({
+    required String hintText,
+  }) {
+    final emailController = TextEditingController();
+
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
-          controller: textController,
+          controller: emailController,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:
@@ -28,8 +33,7 @@ class FormEmailText {
           maxLines: 1,
           validator: (value) {
             if (value != null) {
-              if (value.isEmpty) {
-              } else {
+              if (value.isNotEmpty) {
                 if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                     .hasMatch(value)) {
                   return 'ensure you are adding an email ';
@@ -37,6 +41,10 @@ class FormEmailText {
               }
             }
             return null;
+          },
+          onChanged: (value) {
+            email = value;
+            debugPrint('✅ ${value}');
           },
         ));
   }

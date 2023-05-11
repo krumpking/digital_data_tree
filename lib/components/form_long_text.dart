@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormLongText {
-  static longText(
-      {required String hintText, TextEditingController? textController}) {
+  static String longTextString = "";
+
+  static longText({required String hintText}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
-          controller: textController,
+          onChanged: (value) {
+            longTextString = value;
+          },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:

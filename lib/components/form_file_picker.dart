@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../app/app_const.dart';
 
 class FormFilePicker {
+  static dynamic pickedFile;
   static filePicker() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -26,6 +27,7 @@ class FormFilePicker {
           print(result.files.first.name);
           print(result.files.first.size);
           print(result.files.first.path);
+          pickedFile = result;
         },
       ),
     );

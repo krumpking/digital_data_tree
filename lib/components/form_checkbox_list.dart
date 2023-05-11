@@ -2,30 +2,49 @@ import 'package:flutter/material.dart';
 
 import '../app/app_const.dart';
 
-class FormCheckBoxList {
-  static checkboxlist({required dynamic items}) {
-    return Padding(
+class FormCheckBoxList extends StatefulWidget {
+  const FormCheckBoxList({Key? key, required this.items, required this.func})
+      : super(key: key);
+  final List<Map<dynamic, dynamic>> items;
+  final Function func;
+  @override
+  _FormCheckBoxListState createState() => _FormCheckBoxListState();
+}
+
+class _FormCheckBoxListState extends State<FormCheckBoxList> {
+  final List<Map<dynamic, dynamic>> chosenItems = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+//  Create the SelectionButton widget in the next step.
+        body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
-        itemCount: items.length,
+        itemCount: widget.items.length,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return CheckboxListTile(
+            activeColor: AppColors.primaryColor,
             title: Text(
-              items[index],
+              widget.items[index]['item'],
             ),
-            value: true,
+            value: chosenItems.contains(widget.items[index]),
             onChanged: (val) {
-              // setState(
-              //   () {
-              //     _data[index].isSelected = val;
-              //   },
-              // );
+              if (val != null) {
+                if (val) {
+                  chosenItems.add(widget.items[index]);
+                } else {
+                  chosenItems.removeAt(index);
+                }
+                setState(() {});
+                widget.func(chosenItems);
+              }
             },
           );
         },
       ),
-    );
+    ));
   }
 }

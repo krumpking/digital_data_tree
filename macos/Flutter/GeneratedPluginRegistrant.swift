@@ -7,16 +7,16 @@ import Foundation
 
 import firebase_auth
 import firebase_core
+import flutter_barcode_sdk
 import geolocator_apple
-import image_editor_common
+import mobile_scanner
 import path_provider_foundation
-import photo_manager
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseAuthPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseAuthPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
+  FlutterBarcodeSdkPlugin.register(with: registry.registrar(forPlugin: "FlutterBarcodeSdkPlugin"))
   GeolocatorPlugin.register(with: registry.registrar(forPlugin: "GeolocatorPlugin"))
-  ImageEditorPlugin.register(with: registry.registrar(forPlugin: "ImageEditorPlugin"))
+  MobileScannerPlugin.register(with: registry.registrar(forPlugin: "MobileScannerPlugin"))
   PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
-  PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
 }

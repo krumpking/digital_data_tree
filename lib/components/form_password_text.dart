@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormPasswordText {
-  static passwordText(
-      {required String hintText, TextEditingController? textController}) {
+  static String password = "";
+  static passwordText({required String hintText}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
           obscureText: true,
-          controller: textController,
+          onChanged: (value) {
+            password = value;
+          },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:

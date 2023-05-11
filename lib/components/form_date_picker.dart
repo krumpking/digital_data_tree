@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../app/app_const.dart';
 
 class FormDatePicker {
+  static String date = "";
   static datePicker() {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -16,7 +17,9 @@ class FormDatePicker {
           child: ScrollDatePicker(
             selectedDate: DateTime.now(),
             locale: Locale('en'),
-            onDateTimeChanged: (DateTime value) {},
+            onDateTimeChanged: (DateTime value) {
+              date = value.toString();
+            },
           ),
         ));
   }

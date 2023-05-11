@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormNumberText {
-  static numberText(
-      {required String hintText, TextEditingController? textController}) {
+  static String numberEntered = "";
+  static numberText({required String hintText}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
-          controller: textController,
+          onChanged: (value) {
+            numberEntered = value.toString();
+          },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:

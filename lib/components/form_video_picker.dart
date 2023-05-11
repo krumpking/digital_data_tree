@@ -8,7 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import '../app/app_const.dart';
 
 class FormVideoPicker {
-  static videoPicker(BuildContext context) {
+  static dynamic videoPicked;
+  static videoPicker() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
@@ -18,6 +19,7 @@ class FormVideoPicker {
           final XFile? pickedFile = await _picker.pickVideo(
             source: ImageSource.gallery,
           );
+          videoPicked = pickedFile;
         },
       ),
     );

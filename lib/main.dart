@@ -1,3 +1,4 @@
+import 'package:digital_data_tree/app/app_const.dart';
 import 'package:digital_data_tree/screens/welcome_screen/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Digital Data Tree',
       theme: ThemeData(
-        textTheme: GoogleFonts.comfortaaTextTheme(),
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+          textTheme: GoogleFonts.comfortaaTextTheme(),
+          primaryColor: AppColors.primaryColor,
+          // primarySwatch: MaterialColor(AppColors.primaryColor, swatch),
+          scaffoldBackgroundColor: Colors.white,
+          dialogBackgroundColor: AppColors.primaryColor),
       home: const WelcomeScreen(),
     );
   }
