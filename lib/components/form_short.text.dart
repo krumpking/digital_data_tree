@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormShortText {
-  static String text = "";
-  static shortText({required String hintText}) {
+  static shortText({required String hintText, required String label}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
           onChanged: (value) {
-            text = value;
+            // text = value;
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

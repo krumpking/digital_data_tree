@@ -7,6 +7,7 @@ class FormEmailText {
 
   static emailText({
     required String hintText,
+    required String label,
   }) {
     final emailController = TextEditingController();
 

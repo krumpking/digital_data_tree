@@ -6,12 +6,12 @@ import '../app/app_const.dart';
 
 class FormRangePicker extends StatefulWidget {
   const FormRangePicker(
-      {Key? key, required this.func, required this.min, required this.max})
+      {Key? key, required this.min, required this.max, required this.label})
       : super(key: key);
 
-  final Function func;
   final double min;
   final double max;
+  final String label;
 
   @override
   FormRangePickerState createState() => FormRangePickerState();
@@ -41,7 +41,6 @@ class FormRangePickerState extends State<FormRangePicker> {
           setState(() {
             range = values;
           });
-          widget.func(values);
         },
       ),
     ));

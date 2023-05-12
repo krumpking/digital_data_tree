@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class BarQRcodeScannerPageView extends StatefulWidget {
-  const BarQRcodeScannerPageView({Key? key}) : super(key: key);
+  const BarQRcodeScannerPageView({Key? key, required this.label})
+      : super(key: key);
+  final String label;
 
   @override
   BarQRcodeScannerPageViewState createState() =>
@@ -69,7 +71,7 @@ class BarQRcodeScannerPageViewState extends State<BarQRcodeScannerPageView>
                         onPress: () {
                           if (capture?.barcodes.first.rawValue != null) {
                             String? res = capture?.barcodes.first.rawValue;
-                            Navigator.pop(context, res);
+                            // Navigator.pop(context, res);
                           }
                         })
                   ]),

@@ -4,7 +4,7 @@ import '../app/app_const.dart';
 
 class FormNumberText {
   static String numberEntered = "";
-  static numberText({required String hintText}) {
+  static numberText({required String hintText, required String label}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(

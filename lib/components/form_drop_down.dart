@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormDropdown extends StatefulWidget {
-  const FormDropdown({Key? key, required this.items, required this.func})
+  const FormDropdown({Key? key, required this.items, required this.label})
       : super(key: key);
   final List<String> items;
-  final Function func;
+  final String label;
 
   @override
   FormDropdownState createState() => FormDropdownState();
@@ -43,7 +43,6 @@ class FormDropdownState extends State<FormDropdown> {
           onChanged: (String? newValue) {
             selected = newValue!;
             setState(() {});
-            widget.func(selected);
           },
         ),
       ),

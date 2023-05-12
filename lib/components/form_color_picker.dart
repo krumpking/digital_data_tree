@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import '../app/app_const.dart';
 
 class FormColorPicker {
-  static String color = "";
   static colorPicker(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -27,10 +26,7 @@ class FormColorPicker {
                   child: MaterialPicker(
                     pickerColor: Colors.white,
                     onColorChanged: (colorValue) {
-                      color = colorValue.value.toRadixString(16);
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('$color picked!'),
-                      ));
+                      // color = colorValue.value.toRadixString(16);
                     },
                     enableLabel: true,
                     portraitOnly: false,

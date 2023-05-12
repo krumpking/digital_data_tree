@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../app/app_const.dart';
 
 class FormCheckBoxList extends StatefulWidget {
-  const FormCheckBoxList({Key? key, required this.items, required this.func})
+  const FormCheckBoxList({Key? key, required this.items, required this.label})
       : super(key: key);
   final List<Map<dynamic, dynamic>> items;
-  final Function func;
+  final String label;
   @override
   _FormCheckBoxListState createState() => _FormCheckBoxListState();
 }
@@ -39,7 +39,6 @@ class _FormCheckBoxListState extends State<FormCheckBoxList> {
                   chosenItems.removeAt(index);
                 }
                 setState(() {});
-                widget.func(chosenItems);
               }
             },
           );

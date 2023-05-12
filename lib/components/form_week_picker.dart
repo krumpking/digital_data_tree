@@ -5,8 +5,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../app/app_const.dart';
 
 class FormWeekPicker {
-  static dynamic weekPicked;
-  static weekPicker() {
+  static weekPicker({required String label}) {
     DateRangePickerController controller = DateRangePickerController();
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -52,7 +51,7 @@ class FormWeekPicker {
             if (!isSameDate(dat1, ranges.startDate) ||
                 !isSameDate(dat2, ranges.endDate)) {
               controller.selectedRange = PickerDateRange(dat1, dat2);
-              weekPicked = PickerDateRange(dat1, dat2);
+              // Add to provider
             }
           },
           monthViewSettings:

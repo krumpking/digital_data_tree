@@ -5,8 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../app/app_const.dart';
 
 class FormImagePicker {
-  static dynamic image;
-  static imagePicker(BuildContext context) {
+  static imagePicker({required String label}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
@@ -19,7 +18,7 @@ class FormImagePicker {
             maxHeight: 2,
             imageQuality: 100,
           );
-          image = pickedFile?.path;
+          // image = pickedFile?.path;
         },
       ),
     );

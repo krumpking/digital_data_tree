@@ -4,7 +4,7 @@ import '../app/app_const.dart';
 
 class FormPasswordText {
   static String password = "";
-  static passwordText({required String hintText}) {
+  static passwordText({required String hintText, required String label}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(

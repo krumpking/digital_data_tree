@@ -1,26 +1,8 @@
-import 'dart:convert';
-
-import 'package:digital_data_tree/components/form_file_picker.dart';
-import 'package:digital_data_tree/components/form_location_picker.dart';
-import 'package:digital_data_tree/components/form_long_text.dart';
-import 'package:digital_data_tree/components/form_time_picker.dart';
+import 'package:digital_data_tree/app/app_const.dart';
+import 'package:digital_data_tree/screens/form_capture_info_screen.dart';
+import 'package:digital_data_tree/screens/form_data.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
-
-import '../../components/app_buttons.dart';
-import '../../components/form_date_picker.dart';
-import '../../components/form_drop_down.dart';
-import '../../components/form_email_text.dart';
-import '../../components/form_image_picker.dart';
-import '../../components/form_month_picker.dart';
-import '../../components/form_number_text.dart';
-import '../../components/form_password_text.dart';
-import '../../components/form_range_picker.dart';
-import '../../components/form_short.text.dart';
-import '../../components/form_signature.dart';
-import '../../components/form_text_recognition.dart';
-import '../../components/form_video_picker.dart';
-import '../../components/form_week_picker.dart';
 
 class FormDetailScreen extends StatefulWidget {
   const FormDetailScreen({super.key});
@@ -30,26 +12,50 @@ class FormDetailScreen extends StatefulWidget {
 }
 
 class _FormDetailScreenState extends State<FormDetailScreen> {
-  Map<dynamic, dynamic> _result = {};
-  List<String> list = ['house', 'car', 'wife'];
-  dynamic res;
+  List screensList = [
+    const FormCaptureInfoScreen(),
+    const FormDataScreen(),
+  ];
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: ListView(children: [
-        const Text('Question'),
-        SizedBox(
-            height: size.height / 2,
-            width: size.width,
-            child: FormWeekPicker.weekPicker()),
-        AppButton.normalButton(
-            title: "Save",
-            onPress: () {
-              print('✅ ${FormWeekPicker.weekPicked}');
-            })
-      ]),
+      extendBody: true,
+      body: screensList[currentIndex],
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: DotNavigationBar(
+            marginR: const EdgeInsets.symmetric(horizontal: 15),
+            backgroundColor: AppColors.primaryColor,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            currentIndex: currentIndex,
+            dotIndicatorColor: AppColors.fifthColor,
+            unselectedItemColor: Colors.grey,
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            items: [
+              DotNavigationBarItem(
+                icon: const Icon(Icons.edit_note),
+                selectedColor: Colors.white,
+              ),
+              DotNavigationBarItem(
+                icon: const Icon(Icons.storage),
+                selectedColor: Colors.white,
+              )
+            ],
+          ),
+        ),
+      ),
     );
+    ;
   }
 }

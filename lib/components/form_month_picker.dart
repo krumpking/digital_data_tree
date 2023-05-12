@@ -5,9 +5,7 @@ import '../app/app_const.dart';
 import 'month_picker.dart';
 
 class FormMonthPicker {
-  static String monthPicked = "";
-
-  static monthPicker(BuildContext context) {
+  static monthPicker(BuildContext context, String label) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
@@ -20,7 +18,7 @@ class FormMonthPicker {
             lastDate: DateTime(2050), // Ending date: Dec 2050
           );
 
-          monthPicked = selectedDate.toString();
+          //monthPicked = selectedDate.toString();
         },
       ),
     );

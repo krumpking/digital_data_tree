@@ -6,7 +6,8 @@ import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.
 import '../app/location_services.dart';
 
 class FormLocationPicker extends StatefulWidget {
-  const FormLocationPicker({Key? key}) : super(key: key);
+  const FormLocationPicker({Key? key, required this.label}) : super(key: key);
+  final String label;
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,7 +47,7 @@ class _FormLocationPicker extends State<FormLocationPicker> {
           print(pickedData.latLong.latitude);
           print(pickedData.latLong.longitude);
           print(pickedData.address);
-          Navigator.pop(context, pickedData);
+          // Navigator.pop(context, pickedData);
         },
         onGetCurrentLocationPressed: locationService.getPosition,
       ),

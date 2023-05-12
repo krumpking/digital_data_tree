@@ -7,7 +7,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 class TextRecognition extends StatefulWidget {
-  const TextRecognition({super.key});
+  const TextRecognition({super.key, required this.label});
+  final String label;
 
   @override
   State<TextRecognition> createState() => _TextRecognition();
@@ -173,7 +174,7 @@ class _TextRecognition extends State<TextRecognition>
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
 
-      Navigator.pop(context, recognizedText.text);
+      // Navigator.pop(context, recognizedText.text);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

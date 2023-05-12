@@ -6,7 +6,8 @@ import 'dart:math' as math;
 import '../app/app_const.dart';
 
 class FormSignature extends StatelessWidget {
-  FormSignature({Key? key}) : super(key: key);
+  FormSignature({Key? key, required this.label}) : super(key: key);
+  final String label;
 
   final HandSignatureControl control = HandSignatureControl(
     threshold: 0.01,
@@ -59,7 +60,7 @@ class FormSignature extends StatelessWidget {
                                 background: Colors.white,
                                 fit: false,
                               );
-                              Navigator.pop(context, res);
+                              // Navigator.pop(context, res);
                             }),
                       ),
                       SizedBox(

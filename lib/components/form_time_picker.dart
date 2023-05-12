@@ -5,7 +5,7 @@ import '../app/app_const.dart';
 
 class FormTimePicker {
   static Time timerPicked = Time(hour: 11, minute: 30, second: 20);
-  static timePicker() {
+  static timePicker({required String label}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: showPicker(
