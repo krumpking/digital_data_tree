@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 
 class FormLongText {
-  static longText({required String hintText, required String label}) {
+  static longText(
+      {required String hintText,
+      required String label,
+      required BuildContext context}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
+          cursorColor: AppColors.fifthColor,
           onChanged: (value) {
-            // longTextString = value;
+            context.read<FormInfo>().addInfo({'label': label, 'info': value});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

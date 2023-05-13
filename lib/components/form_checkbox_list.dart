@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 
 class FormCheckBoxList extends StatefulWidget {
   const FormCheckBoxList({Key? key, required this.items, required this.label})
       : super(key: key);
-  final List<Map<dynamic, dynamic>> items;
+  final List<String> items;
   final String label;
   @override
   _FormCheckBoxListState createState() => _FormCheckBoxListState();
 }
 
 class _FormCheckBoxListState extends State<FormCheckBoxList> {
-  final List<Map<dynamic, dynamic>> chosenItems = [];
+  final List<String> chosenItems = [];
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _FormCheckBoxListState extends State<FormCheckBoxList> {
           return CheckboxListTile(
             activeColor: AppColors.primaryColor,
             title: Text(
-              widget.items[index]['item'],
+              widget.items[index],
             ),
             value: chosenItems.contains(widget.items[index]),
             onChanged: (val) {
@@ -38,6 +40,9 @@ class _FormCheckBoxListState extends State<FormCheckBoxList> {
                 } else {
                   chosenItems.removeAt(index);
                 }
+                context
+                    .read<FormInfo>()
+                    .addInfo({'label': widget.label, 'info': chosenItems});
                 setState(() {});
               }
             },

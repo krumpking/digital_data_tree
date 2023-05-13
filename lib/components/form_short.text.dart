@@ -1,15 +1,21 @@
+import 'package:digital_data_tree/view_models/form_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
 
 class FormShortText {
-  static shortText({required String hintText, required String label}) {
+  static shortText(
+      {required String hintText,
+      required String label,
+      required BuildContext context}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
           onChanged: (value) {
-            // text = value;
+            context.read<FormInfo>().addInfo({'label': label, 'info': value});
           },
+          cursorColor: AppColors.fifthColor,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:

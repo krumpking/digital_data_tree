@@ -1,7 +1,9 @@
 import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 import 'month_picker.dart';
 
 class FormMonthPicker {
@@ -19,6 +21,9 @@ class FormMonthPicker {
           );
 
           //monthPicked = selectedDate.toString();
+          context
+              .read<FormInfo>()
+              .addInfo({'label': label, 'info': selectedDate.toString()});
         },
       ),
     );

@@ -14,23 +14,7 @@ class _FormDataScreenState extends State<FormDataScreen> {
       'elementId': 0,
       'id': 'x',
       'label': 'Label',
-      'arg1': '',
-      'arg2': '',
-      'arg3': ''
-    },
-    {
-      'elementId': 0,
-      'id': 'x',
-      'label': 'Label',
-      'arg1': '',
-      'arg2': '',
-      'arg3': ''
-    },
-    {
-      'elementId': 0,
-      'id': 'x',
-      'label': 'Label',
-      'arg1': '',
+      'arg1': 'Label',
       'arg2': '',
       'arg3': ''
     },
@@ -53,11 +37,11 @@ class _FormDataScreenState extends State<FormDataScreen> {
               children: [
                 Text('${list[index]['label']}'),
                 const SizedBox(height: 8.0),
-                elementList[list[index]['elementId']](
-                  list[index]['arg1'],
-                  list[index]['arg2'],
-                  list[index]['arg3'],
-                ),
+                // elementList[list[index]['elementId']](
+                //   list[index]['arg1'],
+                //   list[index]['arg2'],
+                //   context,
+                // ),
               ],
             ),
           ),

@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 
 class FormEmailText {
-  static String email = "";
-
-  static emailText({
-    required String hintText,
-    required String label,
-  }) {
-    final emailController = TextEditingController();
-
+  static emailText(
+      {required String hintText,
+      required String label,
+      required BuildContext context}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
-          controller: emailController,
+          cursorColor: AppColors.fifthColor,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderSide:
@@ -44,8 +42,7 @@ class FormEmailText {
             return null;
           },
           onChanged: (value) {
-            email = value;
-            debugPrint('✅ ${value}');
+            context.read<FormInfo>().addInfo({'label': label, 'info': value});
           },
         ));
   }

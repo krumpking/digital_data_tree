@@ -1,16 +1,22 @@
+import 'package:digital_data_tree/view_models/form_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
 
 class FormPasswordText {
   static String password = "";
-  static passwordText({required String hintText, required String label}) {
+  static passwordText(
+      {required String hintText,
+      required String label,
+      required BuildContext context}) {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
+          cursorColor: AppColors.fifthColor,
           obscureText: true,
           onChanged: (value) {
-            password = value;
+            context.read<FormInfo>().addInfo({'label': label, 'info': value});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -29,18 +35,6 @@ class FormPasswordText {
             hintText: hintText,
           ),
           maxLines: 1,
-          validator: (value) {
-            if (value != null) {
-              if (value.isEmpty) {
-              } else {
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                    .hasMatch(value)) {
-                  return 'ensure you are adding an email ';
-                }
-              }
-            }
-            return null;
-          },
         ));
   }
 }
