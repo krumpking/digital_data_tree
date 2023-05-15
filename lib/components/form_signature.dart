@@ -1,9 +1,11 @@
 import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hand_signature/signature.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 
 class FormSignature extends StatelessWidget {
   FormSignature({Key? key, required this.label}) : super(key: key);
@@ -60,7 +62,11 @@ class FormSignature extends StatelessWidget {
                                 background: Colors.white,
                                 fit: false,
                               );
-                              // Navigator.pop(context, res);
+
+                              context
+                                  .read<FormInfo>()
+                                  .addInfo({'label': label, 'info': res});
+                              Navigator.pop(context);
                             }),
                       ),
                       SizedBox(

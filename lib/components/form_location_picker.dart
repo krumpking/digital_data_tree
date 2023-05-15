@@ -2,8 +2,10 @@ import 'package:digital_data_tree/app/app_const.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
+import 'package:provider/provider.dart';
 
 import '../app/location_services.dart';
+import '../view_models/form_info.dart';
 
 class FormLocationPicker extends StatefulWidget {
   const FormLocationPicker({Key? key, required this.label}) : super(key: key);
@@ -44,10 +46,16 @@ class _FormLocationPicker extends State<FormLocationPicker> {
         buttonColor: AppColors.primaryColor,
         buttonText: 'Set Location',
         onPicked: (pickedData) {
-          print(pickedData.latLong.latitude);
-          print(pickedData.latLong.longitude);
-          print(pickedData.address);
+          // print(pickedData.latLong.latitude);
+          // print(pickedData.latLong.longitude);
+          // print(pickedData.address);
           // Navigator.pop(context, pickedData);
+          context.read<FormInfo>().addInfo({
+            'label': widget.label,
+            'info':
+                'Lat${pickedData.latLong.latitude}Lng:${pickedData.latLong.longitude}'
+          });
+          Navigator.pop(context);
         },
         onGetCurrentLocationPressed: locationService.getPosition,
       ),

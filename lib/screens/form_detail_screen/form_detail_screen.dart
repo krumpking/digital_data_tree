@@ -1,3 +1,4 @@
+import 'package:aes256gcm/aes256gcm.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:digital_data_tree/app/app_const.dart';
 import 'package:digital_data_tree/screens/form_capture_screen/form_capture_info_screen.dart';
@@ -95,7 +96,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
         backgroundColor: AppColors.primaryColor,
         child:
             currentIndex == 0 ? const Icon(Icons.save) : const Icon(Icons.send),
-        onPressed: () {
+        onPressed: () async {
           // Do something
 
           if (currentIndex == 0) {

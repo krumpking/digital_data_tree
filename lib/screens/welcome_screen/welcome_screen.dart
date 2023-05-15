@@ -5,6 +5,7 @@ import '../../app/app_const.dart';
 import '../../components/app_buttons.dart';
 import '../../components/loader.dart';
 import '../../firebase_options.dart';
+import '../../utils/crypto.dart';
 import '../home_screen/home_screen.dart';
 import 'components/clipper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -228,6 +229,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     child: AppButton.normalButton(
                       title: _codeSent ? 'Login' : 'Get Started',
                       onPress: () async {
+                        var encrypted = Encryption.encrypt(
+                            'Jumping jumping jumping',
+                            'my 32 length key................');
+                        print('ENCRYPTED $encrypted');
+                        var dencrypted = Encryption.decrypt(
+                            encrypted, 'my 32 length key................');
+                        print('DECRYPTED $dencrypted');
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: ((context) => const HomeScreen()),
                         ));

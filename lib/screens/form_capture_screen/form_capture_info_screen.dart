@@ -98,6 +98,86 @@ class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
       'arg2': null,
       'arg3': null
     },
+    {
+      'elementId': 11,
+      'id': 'x',
+      'label': 'Image',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 12,
+      'id': 'x',
+      'label': 'Video',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 13,
+      'id': 'x',
+      'label': 'File',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 14,
+      'id': 'x',
+      'label': 'Color',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 15,
+      'id': 'x',
+      'label': 'Range',
+      'arg1': 0,
+      'arg2': 0.0,
+      'arg3': 10.0
+    },
+    {
+      'elementId': 16,
+      'id': 'x',
+      'label': 'Pick Location',
+      'arg1': 0,
+      'arg2': 0.0,
+      'arg3': 10.0
+    },
+    {
+      'elementId': 17,
+      'id': 'x',
+      'label': 'Put Signature',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 18,
+      'id': 'x',
+      'label': 'Put Text Recognition',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 19,
+      'id': 'x',
+      'label': 'Get Barcode reader',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
+    {
+      'elementId': 20,
+      'id': 'x',
+      'label': 'Get QRCode reader',
+      'arg1': null,
+      'arg2': null,
+      'arg3': null
+    },
   ];
   var currentCategory = 0;
 

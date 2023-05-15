@@ -2,6 +2,9 @@ import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:digital_data_tree/components/scanner_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:provider/provider.dart';
+
+import '../view_models/form_info.dart';
 
 class BarQRcodeScannerPageView extends StatefulWidget {
   const BarQRcodeScannerPageView({Key? key, required this.label})
@@ -71,7 +74,11 @@ class BarQRcodeScannerPageViewState extends State<BarQRcodeScannerPageView>
                         onPress: () {
                           if (capture?.barcodes.first.rawValue != null) {
                             String? res = capture?.barcodes.first.rawValue;
-                            // Navigator.pop(context, res);
+
+                            context
+                                .read<FormInfo>()
+                                .addInfo({'label': widget.label, 'info': res});
+                            Navigator.pop(context);
                           }
                         })
                   ]),

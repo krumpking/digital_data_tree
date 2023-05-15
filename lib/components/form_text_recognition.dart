@@ -5,6 +5,9 @@ import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:provider/provider.dart';
+
+import '../view_models/form_info.dart';
 
 class TextRecognition extends StatefulWidget {
   const TextRecognition({super.key, required this.label});
@@ -91,7 +94,10 @@ class _TextRecognition extends State<TextRecognition>
                           padding: const EdgeInsets.only(bottom: 30.0),
                           child: Center(
                               child: AppButton.normalButton(
-                                  title: 'Scan Text', onPress: _scanImage)),
+                                  title: 'Scan Text',
+                                  onPress: () {
+                                    _scanImage(widget.label);
+                                  })),
                         ),
                       ],
                     )
@@ -163,7 +169,7 @@ class _TextRecognition extends State<TextRecognition>
     setState(() {});
   }
 
-  Future<void> _scanImage() async {
+  Future<void> _scanImage(String label) async {
     if (_cameraController == null) return;
 
     try {
@@ -173,8 +179,12 @@ class _TextRecognition extends State<TextRecognition>
 
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
+      print('INFO INFO ${recognizedText.text}');
+      context
+          .read<FormInfo>()
+          .addInfo({'label': label, 'info': recognizedText.text});
 
-      // Navigator.pop(context, recognizedText.text);
+      Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

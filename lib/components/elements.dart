@@ -79,44 +79,75 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
     return FormDatePicker.datePicker(label: label, context: arg4);
   },
-  // image
+  // image 11
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormImagePicker.imagePicker(label: label);
+    return FormImagePicker.imagePicker(label: label, context: arg4);
   },
-  // video
+  // video 12
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormVideoPicker.videoPicker(label: label);
+    return FormVideoPicker.videoPicker(label: label, context: arg4);
   },
-  // file picker
+  // file picker 13
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormFilePicker.filePicker(label: label);
+    return FormFilePicker.filePicker(label: label, context: arg4);
   },
-  // color picker
-  (dynamic context, dynamic arg, dynamic arg3, dynamic arg4) {
-    return FormColorPicker.colorPicker(context);
+  // color picker 14
+  (dynamic label, dynamic arg, dynamic arg3, dynamic arg4) {
+    return FormColorPicker.colorPicker(context: arg4, label: label);
   },
-  // range picker
-  (dynamic min, dynamic max, dynamic label, dynamic arg4) {
+  // range picker 15
+  (dynamic label, dynamic min, dynamic max, dynamic arg4) {
     return FormRangePicker(max: max, min: min, label: label);
   },
-  // location picker
+  // location picker 16
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormLocationPicker(label: label);
+    return AppButton.normalButton(
+        title: 'Pick Location',
+        onPress: () {
+          Navigator.of(arg4).push(MaterialPageRoute(
+            builder: ((context) => FormLocationPicker(label: label)),
+          ));
+        });
   },
-  // signature
+  // signature 17
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormSignature(label: label);
+    return AppButton.normalButton(
+        title: 'Put Signature',
+        onPress: () {
+          Navigator.of(arg4).push(MaterialPageRoute(
+            builder: ((context) => FormSignature(label: label)),
+          ));
+        });
   },
-  // Text recognition
+  // Text recognition 18
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return TextRecognition(label: label);
+    return AppButton.normalButton(
+        title: 'Get Text Recognition',
+        onPress: () {
+          Navigator.of(arg4).push(MaterialPageRoute(
+            builder: ((context) => TextRecognition(label: label)),
+          ));
+        });
   },
-  // Barcode reader
+  // Barcode reader 19
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return BarQRcodeScannerPageView(label: label);
+    return AppButton.normalButton(
+        title: 'Get Barcode Reader',
+        onPress: () {
+          Navigator.of(arg4).push(MaterialPageRoute(
+            builder: ((context) => BarQRcodeScannerPageView(label: label)),
+          ));
+        });
   },
-  // QR Code reader
+  // QR Code reader 20
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return BarQRcodeScannerPageView(label: label);
+    return AppButton.normalButton(
+        title: 'Get QR Code Scanner',
+        onPress: () {
+          Navigator.of(arg4).push(MaterialPageRoute(
+            builder: ((context) => BarQRcodeScannerPageView(label: label)),
+          ));
+        });
+    ;
   },
 ];

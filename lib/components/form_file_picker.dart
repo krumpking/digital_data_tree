@@ -5,11 +5,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
+import '../view_models/form_info.dart';
 
 class FormFilePicker {
-  static filePicker({required String label}) {
+  static filePicker({required String label, required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
@@ -23,10 +25,14 @@ class FormFilePicker {
 
           // we will log the name, size and path of the
           // first picked file (if multiple are selected)
-          print(result.files.first.name);
-          print(result.files.first.size);
-          print(result.files.first.path);
+          // print(result.files.first.name);
+          // print(result.files.first.size);
+          // print(result.files.first.path);
           // pickedFile = result;
+
+          context
+              .read<FormInfo>()
+              .addInfo({'label': label, 'info': result.files.first.path});
         },
       ),
     );
