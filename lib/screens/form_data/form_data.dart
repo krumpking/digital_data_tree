@@ -10,14 +10,7 @@ class FormDataScreen extends StatefulWidget {
 
 class _FormDataScreenState extends State<FormDataScreen> {
   List<dynamic> list = [
-    {
-      'elementId': 0,
-      'id': 'x',
-      'label': 'Label',
-      'arg1': 'Label',
-      'arg2': '',
-      'arg3': ''
-    },
+    {'elementId': 0, 'label': 'Label', 'arg1': 'Label', 'arg2': '', 'arg3': ''},
   ];
   var currentCategory = 0;
 

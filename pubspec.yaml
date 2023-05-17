@@ -64,6 +64,13 @@ dependencies:
   aes256gcm: ^1.0.1
   crypto: ^3.0.3
   encrypt: ^5.0.1
+  build_runner: ^2.3.3
+  sembast: ^3.4.4
+  get_it: ^7.6.0
+  path_provider: ^2.0.15
+  json_annotation: ^4.8.1
+  shared_preferences: ^2.1.1
+  cloud_firestore: ^4.7.1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +82,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  json_serializable: ^6.6.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,14 +1,21 @@
+import 'package:digital_data_tree/components/snack.dart';
+import 'package:digital_data_tree/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app/app_const.dart';
 import '../../components/app_buttons.dart';
 import '../../components/loader.dart';
 import '../../firebase_options.dart';
+import '../../repositories_abstracts/user_repository.dart';
 import '../../utils/crypto.dart';
 import '../home_screen/home_screen.dart';
 import 'components/clipper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:intl/intl.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -25,12 +32,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   var _verificationCode;
   bool _codeSent = false;
   bool loading = false;
+  final UserRepository _userRepository = GetIt.I.get();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   @override
   initState() {
     super.initState();
-
-    // Add listeners to this class
   }
 
   @override
@@ -53,6 +60,72 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     Image.asset(
       'assets/pictures/1.png',
       key: UniqueKey(),
+    ),
+  ];
+
+  List<Widget> textList = [
+    const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50),
+      child: Text(
+        'Say BYE to the days of hours spent trying to locate files, all information is available at your fingertips, secured with Bank-level encryption, and organized to your liking at a click of a button.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 12,
+        ),
+      ),
+    ),
+    const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50),
+      child: Text(
+        'With all your information, captured, secured and presented at a click of button, you can spend more time in more creative things that improve your business.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 12,
+        ),
+      ),
+    ),
+    const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 50),
+      child: Text(
+        'Digitization can help to solve the information gap between departments by providing a way to share information quickly and easily. When departments have access to the same information, it can lead to improved efficiency, decision-making, customer service, and risk management.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 12,
+        ),
+      ),
+    ),
+  ];
+
+  List<Widget> headinTextList = [
+    const Text(
+      'No more lost papers',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: 15,
+      ),
+    ),
+    const Text(
+      'More time for fun',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: 15,
+      ),
+    ),
+    const Text(
+      'Easy collaboration',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: 15,
+      ),
     ),
   ];
 
@@ -133,26 +206,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       itemBuilder: (ctx, i) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              'Find your best outfit\nand look great',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
+                          children: [
+                            headinTextList[currentPage],
                             SizedBox(height: 10),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              child: Text(
-                                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, standard dummy text ever since the 1500s.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                ),
-                              ),
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              transitionBuilder: (child, animation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              child: textList[currentPage],
                             ),
                           ],
                         );
@@ -229,105 +294,119 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     child: AppButton.normalButton(
                       title: _codeSent ? 'Login' : 'Get Started',
                       onPress: () async {
-                        var encrypted = Encryption.encrypt(
-                            'Jumping jumping jumping',
-                            'my 32 length key................');
-                        print('ENCRYPTED $encrypted');
-                        var dencrypted = Encryption.decrypt(
-                            encrypted, 'my 32 length key................');
-                        print('DECRYPTED $dencrypted');
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => const HomeScreen()),
-                        ));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: ((context) => const HomeScreen()),
+                        // ));
 
-                        // if (_codeSent) {
-                        //   try {
-                        //     await FirebaseAuth.instance
-                        //         .signInWithCredential(
-                        //             PhoneAuthProvider.credential(
-                        //                 verificationId: _verificationCode,
-                        //                 smsCode: otp.text))
-                        //         .then((value) async {
-                        //       // if (value.user != null) {
-                        //       //   setPassword(value.user!.uid);
-                        //       // }
-                        //       Navigator.of(context).push(MaterialPageRoute(
-                        //         builder: ((context) => const HomeScreen()),
-                        //       ));
+                        if (_codeSent) {
+                          if (otp.text.isNotEmpty) {
+                            try {
+                              await FirebaseAuth.instance
+                                  .signInWithCredential(
+                                      PhoneAuthProvider.credential(
+                                          verificationId: _verificationCode,
+                                          smsCode: otp.text))
+                                  .then((value) async {
+                                // if (value.user != null) {
+                                //   setPassword(value.user!.uid);
+                                // }
 
-                        //       print('WE ARE IN');
-                        //     });
-                        //   } catch (e) {
-                        //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        //       content: Text('Invalid OTP!'),
-                        //     ));
-                        //   }
-                        // } else {
-                        //   setState(() {
-                        //     loading = true;
-                        //   });
+                                // Save user to database
 
-                        //   await FirebaseAuth.instance.verifyPhoneNumber(
-                        //       phoneNumber: phoneNumber.text,
-                        //       verificationCompleted:
-                        //           (PhoneAuthCredential credential) async {
-                        //         print('VERIFICATION COMPLETED');
-                        //         ScaffoldMessenger.of(context)
-                        //             .showSnackBar(SnackBar(
-                        //           content: Text('VERIFICATION COMPLETED'),
-                        //         ));
-                        //         print(credential);
+                                DateFormat format = DateFormat('yyyy-MM-dd');
+                                DateTime date = DateTime.now();
 
-                        //         // await FirebaseAuth.instance
-                        //         //     .signInWithCredential(credential)
-                        //         //     .then((value) async {
-                        //         //   if (value.user != null) {
-                        //         //     // setPassword(value.user!.uid);
-                        //         //   }
-                        //         // });
-                        //         setState(() {
-                        //           loading = false;
-                        //         });
-                        //       },
-                        //       verificationFailed: (FirebaseAuthException e) {
-                        //         print(e.message);
-                        //         ScaffoldMessenger.of(context)
-                        //             .showSnackBar(SnackBar(
-                        //           content: Text(e.message.toString()),
-                        //         ));
-                        //         setState(() {
-                        //           loading = false;
-                        //         });
-                        //       },
-                        //       codeSent:
-                        //           (String verficationID, int? resendToken) {
-                        //         ScaffoldMessenger.of(context)
-                        //             .showSnackBar(SnackBar(
-                        //           content: Text("VERIFICATION SENT"),
-                        //         ));
-                        //         setState(() {
-                        //           _verificationCode = verficationID;
-                        //           _codeSent = true;
-                        //         });
-                        //         setState(() {
-                        //           loading = false;
-                        //         });
-                        //       },
-                        //       codeAutoRetrievalTimeout:
-                        //           (String verificationID) {
-                        //         setState(() {
-                        //           _verificationCode = verificationID;
-                        //         });
-                        //         setState(() {
-                        //           loading = false;
-                        //         });
-                        //         ScaffoldMessenger.of(context)
-                        //             .showSnackBar(SnackBar(
-                        //           content: Text("TIME OUT"),
-                        //         ));
-                        //       },
-                        //       timeout: Duration(seconds: 120));
-                        // }
+                                // Add counter into shared preferences
+                                _prefs.then((SharedPreferences prefs) {
+                                  prefs.setInt('counter', 1);
+                                  prefs.setString('date', format.format(date));
+                                });
+
+                                // ignore: unnecessary_new
+                                final newUser = new UserModel(
+                                  id: 0,
+                                  userId: value.user!.uid,
+                                  phoneNumber: phoneNumber.text,
+                                  // dateCreated: format.format(date)
+                                );
+
+                                _userRepository.insertUser(newUser);
+
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => const HomeScreen()),
+                                ));
+                              });
+                            } catch (e) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(Snack.snack('Invalid OTP'));
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(Snack.snack(
+                                'Please ensure you enter your verification code'));
+                          }
+                        } else {
+                          if (phoneNumber.text.isNotEmpty) {
+                            setState(() {
+                              loading = true;
+                            });
+                            await FirebaseAuth.instance.verifyPhoneNumber(
+                                phoneNumber: phoneNumber.text,
+                                verificationCompleted:
+                                    (PhoneAuthCredential credential) async {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      Snack.snack('Verification Completed'));
+                                  print(credential);
+
+                                  // await FirebaseAuth.instance
+                                  //     .signInWithCredential(credential)
+                                  //     .then((value) async {
+                                  //   if (value.user != null) {
+                                  //     // setPassword(value.user!.uid);
+                                  //   }
+                                  // });
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                },
+                                verificationFailed: (FirebaseAuthException e) {
+                                  print(e.message);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      Snack.snack(e.message.toString()));
+                                  print(e);
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                },
+                                codeSent:
+                                    (String verficationID, int? resendToken) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      Snack.snack('Verification Sent'));
+                                  setState(() {
+                                    _verificationCode = verficationID;
+                                    _codeSent = true;
+                                  });
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                },
+                                codeAutoRetrievalTimeout:
+                                    (String verificationID) {
+                                  setState(() {
+                                    _verificationCode = verificationID;
+                                  });
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(Snack.snack('Time Out'));
+                                },
+                                timeout: Duration(seconds: 120));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                Snack.snack(
+                                    'Make sure you added your phone number'));
+                          }
+                        }
                       },
                     ),
                   ),
