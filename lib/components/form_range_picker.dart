@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormRangePicker extends StatefulWidget {
   const FormRangePicker(
@@ -43,10 +43,12 @@ class FormRangePickerState extends State<FormRangePicker> {
           setState(() {
             range = values;
           });
-          context.read<FormInfo>().addInfo({
+          var info =
+              Provider.of<FormInfoViewModel>(context, listen: false).info;
+          context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
             'info': '${values.start} - ${values.end}'
-          });
+          }, info.length);
         },
       ),
     ));

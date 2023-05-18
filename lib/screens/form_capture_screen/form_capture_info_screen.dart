@@ -2,7 +2,8 @@ import 'package:digital_data_tree/components/elements.dart';
 import 'package:flutter/material.dart';
 
 class FormCaptureInfoScreen extends StatefulWidget {
-  const FormCaptureInfoScreen({Key? key}) : super(key: key);
+  const FormCaptureInfoScreen({super.key, required this.list});
+  final List<dynamic> list;
 
   @override
   State<FormCaptureInfoScreen> createState() => _FFormCaptureInfoScreenState();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 import 'month_picker.dart';
 
 class FormMonthPicker {
@@ -21,9 +21,10 @@ class FormMonthPicker {
           );
 
           //monthPicked = selectedDate.toString();
-          context
-              .read<FormInfo>()
-              .addInfo({'label': label, 'info': selectedDate.toString()});
+          var info =
+              Provider.of<FormInfoViewModel>(context, listen: false).info;
+          context.read<FormInfoViewModel>().addInfo(
+              {'label': label, 'info': selectedDate.toString()}, info.length);
         },
       ),
     );

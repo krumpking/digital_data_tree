@@ -6,11 +6,13 @@ import 'package:digital_data_tree/models/form_model.dart';
 import 'package:digital_data_tree/screens/form_detail_screen/form_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 import '../../../app/app_const.dart';
 import '../../../components/snack.dart';
 import '../../../repositories_abstracts/form_repository.dart';
 import '../../../repositories_abstracts/user_repository.dart';
+import '../../../view_models/user_view_model.dart';
 
 class Forms extends StatefulWidget {
   const Forms({Key? key}) : super(key: key);
@@ -52,7 +54,7 @@ class _FormsState extends State<Forms> {
             return GestureDetector(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: ((context) => FormDetailScreen()),
+                  builder: ((context) => FormDetailScreen(form: form)),
                 ),
               ),
               child: Card(
@@ -146,11 +148,14 @@ class _FormsState extends State<Forms> {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var _user = await _userRepository.getUser();
+        var user = await _userRepository.getUser();
+
+        // Add User to provider
+        context.read<UserViewModel>().addUser(user[0]);
 
         final myForms = await db
             .collection("forms")
-            .where("editorNumbers", arrayContains: _user[0].phoneNumber)
+            .where("editorNumbers", arrayContains: user[0].phoneNumber)
             .get();
 
         for (var docSnapshot in myForms.docs) {
@@ -164,7 +169,8 @@ class _FormsState extends State<Forms> {
               elements: el['elements'],
               title: el['title']);
 
-          if (currForms.contains(form) != true) {
+          // Check that this form is not already added
+          if (!check(form, currForms as List<FormModel>)) {
             _formRepository.insertForm(form);
           }
         }
@@ -181,6 +187,21 @@ class _FormsState extends State<Forms> {
         _forms = currForms as List<FormModel>;
       });
     }
+  }
+
+  bool check(FormModel form, List<FormModel> currForms) {
+    bool res = false;
+
+    for (var i = 0; i < currForms.length; i++) {
+      var map = currForms[i];
+      if (map.id == form.id) {
+        // If the variable is present in the map, set the variableExists variable to true.
+        res = true;
+        break;
+      }
+    }
+
+    return res;
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormLongText {
   static longText(
@@ -14,7 +14,11 @@ class FormLongText {
         child: TextFormField(
           cursorColor: AppColors.fifthColor,
           onChanged: (value) {
-            context.read<FormInfo>().addInfo({'label': label, 'info': value});
+            var info =
+                Provider.of<FormInfoViewModel>(context, listen: false).info;
+            context
+                .read<FormInfoViewModel>()
+                .addInfo({'label': label, 'info': value}, info.length);
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

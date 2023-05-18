@@ -71,6 +71,7 @@ dependencies:
   json_annotation: ^4.8.1
   shared_preferences: ^2.1.1
   cloud_firestore: ^4.7.1
+  flutter_expandable_table: ^1.1.1
 
 dev_dependencies:
   flutter_test:

@@ -3,8 +3,9 @@ import 'package:digital_data_tree/components/loader.dart';
 import 'package:digital_data_tree/screens/home_screen/home_screen.dart';
 import 'package:digital_data_tree/utils/dates.dart';
 import 'package:digital_data_tree/utils/init.dart';
-import 'package:digital_data_tree/view_models/form_info.dart';
+import 'package:digital_data_tree/view_models/form_info_view_model.dart';
 import 'package:digital_data_tree/screens/welcome_screen/welcome_screen.dart';
+import 'package:digital_data_tree/view_models/user_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,8 +18,15 @@ Future<void> main() async {
 
   await Firebase.initializeApp();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => FormInfo(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => FormInfoViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserViewModel(),
+        ),
+      ],
       child: MyApp(),
     ),
   );

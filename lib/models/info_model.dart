@@ -1,13 +1,15 @@
 import 'package:sembast/sembast.dart';
 
 class Info {
-  final int id;
+  final String id;
+  final int encryption;
   final String dateCreated;
-  final List<dynamic> info;
-  final List<dynamic> editorNumber;
+  final List<List<dynamic>> info;
+  final String editorNumber;
   final String editorId;
 
   Info({
+    required this.encryption,
     required this.id,
     required this.dateCreated,
     required this.info,
@@ -17,6 +19,8 @@ class Info {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
+      'encryption': encryption,
       'dateCreated': dateCreated,
       'info': info,
       'editorNumber': editorNumber,
@@ -26,7 +30,8 @@ class Info {
 
   factory Info.fromMap(int id, Map<dynamic, dynamic> map) {
     return Info(
-      id: id,
+      id: map['id'],
+      encryption: map['encryption'],
       dateCreated: map['dateCreated'],
       editorId: map['editorId'],
       editorNumber: map['editorNumber'],

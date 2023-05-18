@@ -7,7 +7,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormDatePicker {
   static datePicker({required String label, required BuildContext context}) {
@@ -20,9 +20,10 @@ class FormDatePicker {
             locale: Locale('en'),
             onDateTimeChanged: (DateTime value) {
               // date = value.toString();
-              context
-                  .read<FormInfo>()
-                  .addInfo({'label': label, 'info': value.toString()});
+              var info =
+                  Provider.of<FormInfoViewModel>(context, listen: false).info;
+              context.read<FormInfoViewModel>().addInfo(
+                  {'label': label, 'info': value.toString()}, info.length);
             },
           ),
         ));

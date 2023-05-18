@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormImagePicker {
   static imagePicker({required String label, required BuildContext context}) {
@@ -21,9 +21,11 @@ class FormImagePicker {
             imageQuality: 100,
           );
           // image = pickedFile?.path;
+          var info =
+              Provider.of<FormInfoViewModel>(context, listen: false).info;
           context
-              .read<FormInfo>()
-              .addInfo({'label': label, 'info': pickedFile?.path});
+              .read<FormInfoViewModel>()
+              .addInfo({'label': label, 'info': pickedFile?.path}, info.length);
         },
       ),
     );

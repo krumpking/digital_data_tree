@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormTimePicker extends StatelessWidget {
   FormTimePicker({Key? key, required this.label}) : super(key: key);
@@ -28,7 +28,11 @@ class FormTimePicker extends StatelessWidget {
             value: Time(hour: 11, minute: 30, second: 20),
             onChange: ((p0) {
               timerPicked = p0;
-              context.read<FormInfo>().addInfo({'label': label, 'info': p0});
+              var info =
+                  Provider.of<FormInfoViewModel>(context, listen: false).info;
+              context
+                  .read<FormInfoViewModel>()
+                  .addInfo({'label': label, 'info': p0}, info.length);
               Navigator.pop(context);
             }),
             minuteInterval: TimePickerInterval.FIVE,

@@ -10,7 +10,27 @@ class SembastInfoService extends InfoRepository {
 
   @override
   Future<void> insertInfo(Info info) async {
-    await _store.add(_database, info.toMap());
+    var filter = Filter.matches('id', info.id);
+    var finder = Finder(filter: filter);
+    var snapshots = await _store.find(_database, finder: finder);
+    var infoList = snapshots
+        .map((snapshot) =>
+            Info.fromMap(snapshot.key as int, snapshot.value as Map))
+        .toList();
+    if (infoList.isNotEmpty) {
+      var currInfo = infoList[0].info;
+      Info particularForm = Info(
+          dateCreated: infoList[0].dateCreated,
+          editorId: infoList[0].editorId,
+          editorNumber: infoList[0].editorNumber,
+          encryption: 1,
+          id: infoList[0].id,
+          info: currInfo);
+      particularForm.info.add(info.info);
+      await _store.record(infoList[0].id).update(_database, info.toMap());
+    } else {
+      await _store.add(_database, info.toMap());
+    }
   }
 
   @override
@@ -24,7 +44,6 @@ class SembastInfoService extends InfoRepository {
 
   @override
   Future updateInfo(Info info) async {
-    // TODO: implement updateInfo
     return await _store.record(info.id).update(_database, info.toMap());
   }
 

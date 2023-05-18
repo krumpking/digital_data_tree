@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:provider/provider.dart';
 
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class TextRecognition extends StatefulWidget {
   const TextRecognition({super.key, required this.label});
@@ -179,10 +179,10 @@ class _TextRecognition extends State<TextRecognition>
 
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
-      print('INFO INFO ${recognizedText.text}');
+      var info = Provider.of<FormInfoViewModel>(context, listen: false).info;
       context
-          .read<FormInfo>()
-          .addInfo({'label': label, 'info': recognizedText.text});
+          .read<FormInfoViewModel>()
+          .addInfo({'label': label, 'info': recognizedText.text}, info.length);
 
       Navigator.pop(context);
     } catch (e) {

@@ -15,6 +15,7 @@ class SearchBar extends StatelessWidget {
           height: 45,
           child: TextFormField(
             decoration: InputDecoration(
+              focusColor: AppColors.fifthColor,
               enabledBorder: OutlineInputBorder(
                 borderSide:
                     const BorderSide(width: 1, color: AppColors.fifthColor),

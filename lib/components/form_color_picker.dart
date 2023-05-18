@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormColorPicker {
   static colorPicker({required BuildContext context, required String label}) {
@@ -29,10 +29,13 @@ class FormColorPicker {
                     pickerColor: Colors.white,
                     onColorChanged: (colorValue) {
                       // color = colorValue.value.toRadixString(16);
-                      context.read<FormInfo>().addInfo({
+                      var info =
+                          Provider.of<FormInfoViewModel>(context, listen: false)
+                              .info;
+                      context.read<FormInfoViewModel>().addInfo({
                         'label': label,
                         'info': colorValue.value.toRadixString(16)
-                      });
+                      }, info.length);
                     },
                     enableLabel: true,
                     portraitOnly: false,

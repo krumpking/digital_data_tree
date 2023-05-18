@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormDropdown extends StatefulWidget {
   const FormDropdown({Key? key, required this.items, required this.label})
@@ -46,9 +46,11 @@ class FormDropdownState extends State<FormDropdown> {
           selected = newValue!;
 
           setState(() {});
+          var info =
+              Provider.of<FormInfoViewModel>(context, listen: false).info;
           context
-              .read<FormInfo>()
-              .addInfo({'label': widget.label, 'info': newValue});
+              .read<FormInfoViewModel>()
+              .addInfo({'label': widget.label, 'info': newValue}, info.length);
         },
       ),
     ));

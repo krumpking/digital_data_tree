@@ -4,7 +4,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormWeekPicker {
   static weekPicker({required String label, required BuildContext context}) {
@@ -54,9 +54,11 @@ class FormWeekPicker {
                 !isSameDate(dat2, ranges.endDate)) {
               controller.selectedRange = PickerDateRange(dat1, dat2);
               // Add to provider
-              context
-                  .read<FormInfo>()
-                  .addInfo({'label': label, 'info': '$dat1 - $dat2'});
+              var info =
+                  Provider.of<FormInfoViewModel>(context, listen: false).info;
+
+              context.read<FormInfoViewModel>().addInfo(
+                  {'label': label, 'info': '$dat1 - $dat2'}, info.length);
             }
           },
           monthViewSettings:

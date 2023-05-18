@@ -5,7 +5,7 @@ import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.
 import 'package:provider/provider.dart';
 
 import '../app/location_services.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormLocationPicker extends StatefulWidget {
   const FormLocationPicker({Key? key, required this.label}) : super(key: key);
@@ -50,11 +50,13 @@ class _FormLocationPicker extends State<FormLocationPicker> {
           // print(pickedData.latLong.longitude);
           // print(pickedData.address);
           // Navigator.pop(context, pickedData);
-          context.read<FormInfo>().addInfo({
+          var info =
+              Provider.of<FormInfoViewModel>(context, listen: false).info;
+          context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
             'info':
                 'Lat${pickedData.latLong.latitude}Lng:${pickedData.latLong.longitude}'
-          });
+          }, info.length);
           Navigator.pop(context);
         },
         onGetCurrentLocationPressed: locationService.getPosition,

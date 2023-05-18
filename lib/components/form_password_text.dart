@@ -1,4 +1,4 @@
-import 'package:digital_data_tree/view_models/form_info.dart';
+import 'package:digital_data_tree/view_models/form_info_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,11 @@ class FormPasswordText {
           cursorColor: AppColors.fifthColor,
           obscureText: true,
           onChanged: (value) {
-            context.read<FormInfo>().addInfo({'label': label, 'info': value});
+            var info =
+                Provider.of<FormInfoViewModel>(context, listen: false).info;
+            context
+                .read<FormInfoViewModel>()
+                .addInfo({'label': label, 'info': value}, info.length);
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

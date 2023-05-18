@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormCheckBoxList extends StatefulWidget {
   const FormCheckBoxList({Key? key, required this.items, required this.label})
@@ -40,9 +40,10 @@ class _FormCheckBoxListState extends State<FormCheckBoxList> {
                 } else {
                   chosenItems.removeAt(index);
                 }
-                context
-                    .read<FormInfo>()
-                    .addInfo({'label': widget.label, 'info': chosenItems});
+                var info =
+                    Provider.of<FormInfoViewModel>(context, listen: false).info;
+                context.read<FormInfoViewModel>().addInfo(
+                    {'label': widget.label, 'info': chosenItems}, info.length);
                 setState(() {});
               }
             },

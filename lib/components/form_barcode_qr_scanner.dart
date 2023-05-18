@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class BarQRcodeScannerPageView extends StatefulWidget {
   const BarQRcodeScannerPageView({Key? key, required this.label})
@@ -74,10 +74,12 @@ class BarQRcodeScannerPageViewState extends State<BarQRcodeScannerPageView>
                         onPress: () {
                           if (capture?.barcodes.first.rawValue != null) {
                             String? res = capture?.barcodes.first.rawValue;
-
-                            context
-                                .read<FormInfo>()
-                                .addInfo({'label': widget.label, 'info': res});
+                            var info = Provider.of<FormInfoViewModel>(context,
+                                    listen: false)
+                                .info;
+                            context.read<FormInfoViewModel>().addInfo(
+                                {'label': widget.label, 'info': res},
+                                info.length);
                             Navigator.pop(context);
                           }
                         })

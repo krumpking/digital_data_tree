@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 import '../app/app_const.dart';
-import '../view_models/form_info.dart';
+import '../view_models/form_info_view_model.dart';
 
 class FormSignature extends StatelessWidget {
   FormSignature({Key? key, required this.label}) : super(key: key);
@@ -63,9 +63,12 @@ class FormSignature extends StatelessWidget {
                                 fit: false,
                               );
 
-                              context
-                                  .read<FormInfo>()
-                                  .addInfo({'label': label, 'info': res});
+                              var info = Provider.of<FormInfoViewModel>(context,
+                                      listen: false)
+                                  .info;
+
+                              context.read<FormInfoViewModel>().addInfo(
+                                  {'label': label, 'info': res}, info.length);
                               Navigator.pop(context);
                             }),
                       ),
