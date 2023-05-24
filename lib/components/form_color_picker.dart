@@ -22,6 +22,15 @@ class FormColorPicker {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+                title: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      "Tap the color you want",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
                 titlePadding: const EdgeInsets.all(0),
                 contentPadding: const EdgeInsets.all(0),
                 content: SingleChildScrollView(
@@ -29,18 +38,20 @@ class FormColorPicker {
                     pickerColor: Colors.white,
                     onColorChanged: (colorValue) {
                       // color = colorValue.value.toRadixString(16);
-                      var info =
-                          Provider.of<FormInfoViewModel>(context, listen: false)
-                              .info;
+
                       context.read<FormInfoViewModel>().addInfo({
                         'label': label,
                         'info': colorValue.value.toRadixString(16)
-                      }, info.length);
+                      });
                     },
                     enableLabel: true,
                     portraitOnly: false,
                   ),
                 ),
+                actions: [
+                  AppButton.normalButton(
+                      title: 'Done', onPress: () => Navigator.pop(context))
+                ],
               );
             },
           );

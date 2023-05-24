@@ -6,26 +6,48 @@ import 'package:provider/provider.dart';
 import '../app/app_const.dart';
 import '../view_models/form_info_view_model.dart';
 
-class FormImagePicker {
-  static imagePicker({required String label, required BuildContext context}) {
+class FormImagePicker extends StatefulWidget {
+  const FormImagePicker({Key? key, required this.label}) : super(key: key);
+
+  final String label;
+
+  @override
+  FormImagePickerState createState() => FormImagePickerState();
+}
+
+class FormImagePickerState extends State<FormImagePicker> {
+  String _image = "";
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
-        title: 'Pick Image',
+        title: _image.isEmpty ? 'Pick Image' : _image, // ADD added here
         onPress: () async {
-          final ImagePicker _picker = ImagePicker();
-          final XFile? pickedFile = await _picker.pickImage(
-            source: ImageSource.gallery,
-            maxWidth: 2,
-            maxHeight: 2,
-            imageQuality: 100,
-          );
-          // image = pickedFile?.path;
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
-          context
-              .read<FormInfoViewModel>()
-              .addInfo({'label': label, 'info': pickedFile?.path}, info.length);
+          if (context.mounted) {
+            try {
+              final ImagePicker _picker = ImagePicker();
+              final XFile? pickedFile = await _picker.pickImage(
+                source: ImageSource.gallery,
+                maxWidth: 2,
+                maxHeight: 2,
+                imageQuality: 100,
+              );
+              // image = pickedFile?.path;
+
+              if (pickedFile != null) {
+                setState(() {
+                  _image = "image picked, click to change";
+                });
+
+                context.read<FormInfoViewModel>().addInfo(
+                  {'label': widget.label, 'info': pickedFile.path},
+                );
+              }
+            } catch (e) {
+              print(e);
+            }
+          }
         },
       ),
     );

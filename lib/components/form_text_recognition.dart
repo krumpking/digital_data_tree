@@ -179,10 +179,10 @@ class _TextRecognition extends State<TextRecognition>
 
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
-      var info = Provider.of<FormInfoViewModel>(context, listen: false).info;
+
       context
           .read<FormInfoViewModel>()
-          .addInfo({'label': label, 'info': recognizedText.text}, info.length);
+          .addInfo({'label': label, 'info': recognizedText.text});
 
       Navigator.pop(context);
     } catch (e) {

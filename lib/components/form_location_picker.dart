@@ -50,13 +50,12 @@ class _FormLocationPicker extends State<FormLocationPicker> {
           // print(pickedData.latLong.longitude);
           // print(pickedData.address);
           // Navigator.pop(context, pickedData);
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
+
           context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
             'info':
                 'Lat${pickedData.latLong.latitude}Lng:${pickedData.latLong.longitude}'
-          }, info.length);
+          });
           Navigator.pop(context);
         },
         onGetCurrentLocationPressed: locationService.getPosition,

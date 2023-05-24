@@ -63,12 +63,8 @@ class FormSignature extends StatelessWidget {
                                 fit: false,
                               );
 
-                              var info = Provider.of<FormInfoViewModel>(context,
-                                      listen: false)
-                                  .info;
-
                               context.read<FormInfoViewModel>().addInfo(
-                                  {'label': label, 'info': res}, info.length);
+                                  {'label': label, 'info': res.toString()});
                               Navigator.pop(context);
                             }),
                       ),

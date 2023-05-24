@@ -54,11 +54,10 @@ class FormWeekPicker {
                 !isSameDate(dat2, ranges.endDate)) {
               controller.selectedRange = PickerDateRange(dat1, dat2);
               // Add to provider
-              var info =
-                  Provider.of<FormInfoViewModel>(context, listen: false).info;
 
-              context.read<FormInfoViewModel>().addInfo(
-                  {'label': label, 'info': '$dat1 - $dat2'}, info.length);
+              context
+                  .read<FormInfoViewModel>()
+                  .addInfo({'label': label, 'info': '$dat1 - $dat2'});
             }
           },
           monthViewSettings:

@@ -1,5 +1,11 @@
 import 'package:digital_data_tree/components/elements.dart';
+import 'package:digital_data_tree/components/form_image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../components/form_file_picker.dart';
+import '../../components/form_video_picker.dart';
+import '../../view_models/form_info_view_model.dart';
 
 class FormCaptureInfoScreen extends StatefulWidget {
   const FormCaptureInfoScreen({super.key, required this.list});
@@ -55,9 +61,9 @@ class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
       'elementId': 5,
       'id': 'x',
       'label': 'Multi choice',
-      'arg1': ['cake', 'ice cream', 'cheese', 'ice cream', 'cheese'],
-      'arg2': ['cake', 'ice cream', 'cheese', 'ice cream', 'cheese'],
-      'arg3': ['cake', 'ice cream', 'cheese', 'ice cream', 'cheese']
+      'arg1': ['cake', 'ice cream', 'cheese', 'apple', 'banana'],
+      'arg2': ['cake', 'ice cream', 'cheese', 'apple', 'banana'],
+      'arg3': ['cake', 'ice cream', 'cheese', 'apple', 'banana']
     },
     {
       'elementId': 6,
@@ -185,6 +191,11 @@ class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    var info = Provider.of<FormInfoViewModel>(context, listen: false).info;
+    if (info.isNotEmpty) {
+      print('INFO INFO INFO ${info[info.length - 1]}');
+    }
+
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (context, index) {

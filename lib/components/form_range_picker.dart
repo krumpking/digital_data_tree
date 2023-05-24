@@ -43,12 +43,11 @@ class FormRangePickerState extends State<FormRangePicker> {
           setState(() {
             range = values;
           });
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
+
           context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
             'info': '${values.start} - ${values.end}'
-          }, info.length);
+          });
         },
       ),
     ));

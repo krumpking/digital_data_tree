@@ -1,6 +1,7 @@
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../app/app_const.dart';
 import '../view_models/form_info_view_model.dart';
@@ -25,14 +26,15 @@ class FormTimePicker extends StatelessWidget {
                 fontWeight: FontWeight.bold, color: AppColors.primaryColor),
             isInlinePicker: true,
             elevation: 1,
-            value: Time(hour: 11, minute: 30, second: 20),
+            value: Time(hour: 12, minute: 00, second: 00),
             onChange: ((p0) {
               timerPicked = p0;
-              var info =
-                  Provider.of<FormInfoViewModel>(context, listen: false).info;
-              context
-                  .read<FormInfoViewModel>()
-                  .addInfo({'label': label, 'info': p0}, info.length);
+
+              context.read<FormInfoViewModel>().addInfo({
+                'label': label,
+                'info': '${p0.hour}:${p0.minute}:${p0.second}'
+              });
+
               Navigator.pop(context);
             }),
             minuteInterval: TimePickerInterval.FIVE,

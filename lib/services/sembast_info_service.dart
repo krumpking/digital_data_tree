@@ -10,45 +10,60 @@ class SembastInfoService extends InfoRepository {
 
   @override
   Future<void> insertInfo(Info info) async {
-    var filter = Filter.matches('id', info.id);
+    var filter = Filter.matches('infoId', info.infoId);
     var finder = Finder(filter: filter);
     var snapshots = await _store.find(_database, finder: finder);
     var infoList = snapshots
-        .map((snapshot) =>
-            Info.fromMap(snapshot.key as int, snapshot.value as Map))
+        .map((snapshot) => Info.fromMap(snapshot.value as Map))
         .toList();
+
     if (infoList.isNotEmpty) {
       var currInfo = infoList[0].info;
+      currInfo.addAll(info.info);
       Info particularForm = Info(
+          title: info.title,
+          descr: info.descr,
           dateCreated: infoList[0].dateCreated,
           editorId: infoList[0].editorId,
-          editorNumber: infoList[0].editorNumber,
           encryption: 1,
-          id: infoList[0].id,
+          infoId: infoList[0].infoId,
           info: currInfo);
-      particularForm.info.add(info.info);
-      await _store.record(infoList[0].id).update(_database, info.toMap());
+      await _store.update(_database, particularForm.toMap(), finder: finder);
     } else {
       await _store.add(_database, info.toMap());
     }
   }
 
   @override
-  Future<List<dynamic>> getInfo() async {
+  Future<List<dynamic>> getAllInfo() async {
     final snapshots = await _store.find(_database);
     return snapshots
-        .map((snapshot) =>
-            Info.fromMap(snapshot.key as int, snapshot.value as Map))
+        .map((snapshot) => Info.fromMap(snapshot.value as Map))
+        .toList();
+  }
+
+  @override
+  Future<List<dynamic>> getInfo(String id) async {
+    var filter = Filter.matches('infoId', id);
+    var finder = Finder(filter: filter);
+    var snapshots = await _store.find(_database, finder: finder);
+    return snapshots
+        .map((snapshot) => Info.fromMap(snapshot.value as Map))
         .toList();
   }
 
   @override
   Future updateInfo(Info info) async {
-    return await _store.record(info.id).update(_database, info.toMap());
+    var filter = Filter.matches('infoId', info.infoId);
+    var finder = Finder(filter: filter);
+    return await _store.update(_database, info.toMap(), finder: finder);
   }
 
   @override
   Future deleteInfo(Info info) async {
-    return await _store.record(info.id).delete(_database);
+    // return await _store.delete(_database);
+    var filter = Filter.matches('infoId', info.infoId);
+    var finder = Finder(filter: filter);
+    return await _store.delete(_database, finder: finder);
   }
 }

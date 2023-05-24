@@ -40,6 +40,8 @@ class _FormsState extends State<Forms> {
 
   @override
   Widget build(BuildContext context) {
+    // Add User to provider
+
     return SliverPadding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         sliver: SliverGrid(
@@ -52,11 +54,13 @@ class _FormsState extends State<Forms> {
           delegate: SliverChildBuilderDelegate((ctx, i) {
             final form = _forms[i];
             return GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: ((context) => FormDetailScreen(form: form)),
-                ),
-              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: ((context) => FormDetailScreen(form: form)),
+                  ),
+                );
+              },
               child: Card(
                 elevation: .7,
                 child: Column(
@@ -123,7 +127,9 @@ class _FormsState extends State<Forms> {
                                     const EdgeInsets.fromLTRB(0, 10, 10, 0),
                                 width: MediaQuery.of(context).size.width * 0.4,
                                 child: Text(
-                                  '${form.desc}...',
+                                  form.desc.length > 135
+                                      ? '${form.desc.substring(0, 135)}...'
+                                      : '${form.desc}...',
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 10),
@@ -145,14 +151,11 @@ class _FormsState extends State<Forms> {
   Future<void> _getForms() async {
     var currForms = await _formRepository.getForms();
 
+    var user = await _userRepository.getUser();
+
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var user = await _userRepository.getUser();
-
-        // Add User to provider
-        context.read<UserViewModel>().addUser(user[0]);
-
         final myForms = await db
             .collection("forms")
             .where("editorNumbers", arrayContains: user[0].phoneNumber)

@@ -17,13 +17,14 @@ class FormDatePicker {
           height: 250,
           child: ScrollDatePicker(
             selectedDate: DateTime.now(),
+            maximumDate: DateTime(2030),
             locale: Locale('en'),
             onDateTimeChanged: (DateTime value) {
               // date = value.toString();
-              var info =
-                  Provider.of<FormInfoViewModel>(context, listen: false).info;
-              context.read<FormInfoViewModel>().addInfo(
-                  {'label': label, 'info': value.toString()}, info.length);
+
+              context
+                  .read<FormInfoViewModel>()
+                  .addInfo({'label': label, 'info': value.toString()});
             },
           ),
         ));

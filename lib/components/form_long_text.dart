@@ -14,11 +14,9 @@ class FormLongText {
         child: TextFormField(
           cursorColor: AppColors.fifthColor,
           onChanged: (value) {
-            var info =
-                Provider.of<FormInfoViewModel>(context, listen: false).info;
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value}, info.length);
+                .addInfo({'label': label, 'info': value});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

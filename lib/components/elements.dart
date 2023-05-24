@@ -81,15 +81,15 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
   },
   // image 11
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormImagePicker.imagePicker(label: label, context: arg4);
+    return FormImagePicker(label: label);
   },
   // video 12
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormVideoPicker.videoPicker(label: label, context: arg4);
+    return FormVideoPicker(label: label);
   },
   // file picker 13
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
-    return FormFilePicker.filePicker(label: label, context: arg4);
+    return FormFilePicker(label: label);
   },
   // color picker 14
   (dynamic label, dynamic arg, dynamic arg3, dynamic arg4) {

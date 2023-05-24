@@ -13,11 +13,9 @@ class FormShortText {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextFormField(
           onChanged: (value) {
-            var info =
-                Provider.of<FormInfoViewModel>(context, listen: false).info;
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value}, info.length);
+                .addInfo({'label': label, 'info': value});
           },
           cursorColor: AppColors.fifthColor,
           decoration: InputDecoration(

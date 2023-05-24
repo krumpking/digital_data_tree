@@ -15,17 +15,19 @@ class FormDropdown extends StatefulWidget {
 }
 
 class FormDropdownState extends State<FormDropdown> {
-  String selected = "";
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    widget.items;
+
     return Scaffold(
         // backgroundColor: Colors.black,
         body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: DropdownButton(
         // Initial Value
-        value: selected.isEmpty ? widget.items[0] : selected,
+        value: widget.items[_selectedIndex].toString(),
         hint: const Text("Select"),
         // Down Arrow Icon
         icon: const Icon(Icons.keyboard_arrow_down),
@@ -43,14 +45,13 @@ class FormDropdownState extends State<FormDropdown> {
         // After selecting the desired option,it will
         // change button value to selected value
         onChanged: (String? newValue) {
-          selected = newValue!;
+          setState(() {
+            _selectedIndex = widget.items.indexOf(newValue!);
+          });
 
-          setState(() {});
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
           context
               .read<FormInfoViewModel>()
-              .addInfo({'label': widget.label, 'info': newValue}, info.length);
+              .addInfo({'label': widget.label, 'info': newValue});
         },
       ),
     ));

@@ -21,10 +21,10 @@ class FormMonthPicker {
           );
 
           //monthPicked = selectedDate.toString();
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
+
           context.read<FormInfoViewModel>().addInfo(
-              {'label': label, 'info': selectedDate.toString()}, info.length);
+            {'label': label, 'info': selectedDate.toString()},
+          );
         },
       ),
     );

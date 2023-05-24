@@ -1,41 +1,45 @@
-import 'package:sembast/sembast.dart';
+import 'dart:convert';
 
 class Info {
-  final String id;
+  final String? title;
+  final String? descr;
+  final String infoId;
   final int encryption;
   final String dateCreated;
-  final List<List<dynamic>> info;
-  final String editorNumber;
+  final List<dynamic> info;
   final String editorId;
 
   Info({
+    this.title,
+    this.descr,
     required this.encryption,
-    required this.id,
+    required this.infoId,
     required this.dateCreated,
     required this.info,
-    required this.editorNumber,
     required this.editorId,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'title': title,
+      'descr': descr,
+      'infoId': infoId,
       'encryption': encryption,
       'dateCreated': dateCreated,
-      'info': info,
-      'editorNumber': editorNumber,
-      'editorId': editorId
+      'info': info.map((e) => jsonEncode(e)).toList(),
+      'editorId': editorId,
     };
   }
 
-  factory Info.fromMap(int id, Map<dynamic, dynamic> map) {
+  factory Info.fromMap(Map<dynamic, dynamic> map) {
     return Info(
-      id: map['id'],
+      title: map['title'],
+      descr: map['descr'],
+      infoId: map['infoId'],
       encryption: map['encryption'],
       dateCreated: map['dateCreated'],
+      info: map['info'].map((e) => jsonDecode(e) as Object).toList(),
       editorId: map['editorId'],
-      editorNumber: map['editorNumber'],
-      info: map['info'],
     );
   }
 }

@@ -10,12 +10,23 @@ import 'package:provider/provider.dart';
 import '../app/app_const.dart';
 import '../view_models/form_info_view_model.dart';
 
-class FormFilePicker {
-  static filePicker({required String label, required BuildContext context}) {
+class FormFilePicker extends StatefulWidget {
+  const FormFilePicker({Key? key, required this.label}) : super(key: key);
+
+  final String label;
+
+  @override
+  FormFilePickerState createState() => FormFilePickerState();
+}
+
+class FormFilePickerState extends State<FormFilePicker> {
+  String _file = "";
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
-        title: 'Pick File',
+        title: _file.isEmpty ? 'Pick File' : _file,
         onPress: () async {
           final result =
               await FilePicker.platform.pickFiles(allowMultiple: false);
@@ -29,10 +40,12 @@ class FormFilePicker {
           // print(result.files.first.size);
           // print(result.files.first.path);
           // pickedFile = result;
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
+          setState(() {
+            _file = "file picked, click to change";
+          });
+
           context.read<FormInfoViewModel>().addInfo(
-              {'label': label, 'info': result.files.first.path}, info.length);
+              {'label': widget.label, 'info': result.files.first.path});
         },
       ),
     );

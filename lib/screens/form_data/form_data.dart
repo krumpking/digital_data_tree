@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:digital_data_tree/app/app_const.dart';
 import 'package:digital_data_tree/components/elements.dart';
+import 'package:digital_data_tree/components/loader.dart';
+import 'package:digital_data_tree/repositories_abstracts/info_repository.dart';
+import 'package:digital_data_tree/utils/arrayM.dart';
+import 'package:expandable_datatable/expandable_datatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_table/flutter_expandable_table.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/info_model.dart';
+import '../../utils/crypto.dart';
 import '../../view_models/form_info_view_model.dart';
 
 class FormDataScreen extends StatefulWidget {
@@ -20,180 +27,139 @@ class _FormDataScreenState extends State<FormDataScreen> {
     {'elementId': 0, 'label': 'Label', 'arg1': 'Label', 'arg2': '', 'arg3': ''},
   ];
   var currentCategory = 0;
+  final InfoRepository _infoRepository = GetIt.I.get();
+  List<dynamic> _info = [];
+  bool _loading = true;
+  List<String> _headers = [];
+  List<List<String>> _rows = [];
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
     // var list = getProductFor(model: model);
+    // var info = context.read<FormInfoViewModel>().getFormInfo(widget.id);
+    // int COLUMN_COUNT = info.info[0].length;
+    // int ROW_COUNT = info.info.length;
 
     return Scaffold(
-      body: Container(
-        color: AppColors.primaryColor,
-        child: Row(
-          children: [
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: _buildExpandableTable(),
-            )),
-          ],
+      appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
+        title: const Text('Data'),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
         ),
+      ),
+      body: Card(
+        child: _loading
+            ? const Loader()
+            : _info.isNotEmpty
+                ? SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: DataTable(
+                          headingRowColor:
+                              MaterialStateProperty.all(AppColors.primaryColor),
+                          columns: _headers
+                              .map((header) => DataColumn(
+                                    label: Text(
+                                      header,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                  ))
+                              .toList(),
+                          rows: _rows
+                              .map((row) => DataRow(
+                                  cells: row
+                                      .map((cell) => DataCell(Text(
+                                            cell,
+                                          )))
+                                      .toList()))
+                              .toList(),
+                        )))
+                : const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                        'Looks like you are yet to collect any information'),
+                  ),
       ),
     );
   }
 
-  // DISPLAYING CAPTURED INFORMATION
-  ExpandableTable _buildExpandableTable() {
-    // get info
-    var info = context.read<FormInfoViewModel>().getFormInfo(widget.id);
+  void _getInfo() async {
+    _info = await _infoRepository.getInfo(widget.id);
 
-    int COLUMN_COUNT = info.info[0].length;
-    int ROW_COUNT = info.length;
-    const int SUB_COLUMN_COUNT = 5;
+    if (_info.isNotEmpty) {
+      Map<String, dynamic> map = _info[0].info[0];
+      final object = map['data'];
 
-    //Creation header
-    ExpandableTableHeader subHeader = ExpandableTableHeader(
-        firstCell: Container(
-            color: AppColors.primaryColor,
-            margin: EdgeInsets.all(1),
-            child: Center(
-                child: Text(
-              'Expandable Column',
-              style: textStyleSubItems(),
-            ))),
-        children: List.generate(
-            SUB_COLUMN_COUNT,
-            (index) => Container(
-                color: AppColors.primaryColor,
-                margin: EdgeInsets.all(1),
-                child: Center(
-                    child: Text(
-                  'Sub Column $index',
-                  style: textStyleSubItems(),
-                )))));
+      for (var i = 0; i < object.length; i++) {
+        var label = object[i]['label'];
+        _headers.add(label);
+      }
 
-    //Creation header
-    ExpandableTableHeader header = ExpandableTableHeader(
-        firstCell: Container(
-            color: AppColors.primaryColor,
-            margin: EdgeInsets.all(1),
-            child: Center(
-                child: Text(
-              'Expandable\nTable',
-              style: textStyleSubItems(),
-            ))),
-        children: List.generate(
-            COLUMN_COUNT - 1,
-            (index) => index == 6
-                ? subHeader
-                : Container(
-                    color: AppColors.primaryColor,
-                    margin: EdgeInsets.all(1),
-                    child: Center(
-                        child: Text(
-                      'Column $index',
-                      style: textStyleSubItems(),
-                    )))));
+      for (var i = 0; i < _info[0].info.length; i++) {
+        _rows.add(_getCells(i, object));
+      }
+    }
 
-    //Creation sub rows
-    List<ExpandableTableRow> subTows1 = List.generate(
-        ROW_COUNT,
-        (rowIndex) => ExpandableTableRow(
-              height: 30,
-              firstCell: Container(
-                  color: AppColors.primaryColor,
-                  margin: EdgeInsets.all(1),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      'Sub Sub Row $rowIndex',
-                      style: textStyleSubItems(),
-                    ),
-                  )),
-              children: List<Widget>.generate(
-                  COLUMN_COUNT + SUB_COLUMN_COUNT - 1,
-                  (columnIndex) => Container(
-                      color: AppColors.primaryColor,
-                      margin: EdgeInsets.all(1),
-                      child: Center(
-                          child: Text(
-                        'Cell $rowIndex:$columnIndex',
-                        style: textStyleSubItems(),
-                      )))),
-            ));
-    List<ExpandableTableRow> subTows = List.generate(
-        ROW_COUNT,
-        (rowIndex) => ExpandableTableRow(
-            height: 50,
-            firstCell: Container(
-                color: AppColors.primaryColor,
-                margin: EdgeInsets.all(1),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'Sub Row $rowIndex',
-                      style: textStyleSubItems(),
-                    ),
-                  ),
-                )),
-            children: subTows1,
-            legend: Container(
-              color: AppColors.primaryColor,
-              margin: EdgeInsets.all(1),
-              child: Center(
-                child: Text(
-                  'Expandible sub Row...',
-                  style: textStyleSubItems(),
-                ),
-              ),
-            )));
-    //Creation rows
-    List<ExpandableTableRow> rows = List.generate(
-        ROW_COUNT,
-        (rowIndex) => ExpandableTableRow(
-              height: 50,
-              firstCell: Container(
-                  color: AppColors.primaryColor,
-                  margin: EdgeInsets.all(1),
-                  child: Center(
-                      child: Text(
-                    'Row $rowIndex',
-                    style: textStyleSubItems(),
-                  ))),
-              legend: rowIndex == 0
-                  ? Container(
-                      color: AppColors.primaryColor,
-                      margin: EdgeInsets.all(1),
-                      child: Center(
-                        child: Text(
-                          'Expandible Row...',
-                          style: textStyleSubItems(),
-                        ),
-                      ),
-                    )
-                  : null,
-              children: rowIndex == 0
-                  ? subTows
-                  : List<Widget>.generate(
-                      COLUMN_COUNT + SUB_COLUMN_COUNT - 1,
-                      (columnIndex) => Container(
-                          color: AppColors.primaryColor,
-                          margin: EdgeInsets.all(1),
-                          child: Center(
-                              child: Text(
-                            'Cell $rowIndex:$columnIndex',
-                            style: textStyleSubItems(),
-                          )))),
-            ));
+    setState(() {
+      _loading = false;
+    });
+  }
 
-    return ExpandableTable(
-      rows: rows,
-      header: header,
-      scrollShadowColor: Colors.grey,
-    );
+  List<String> _getCells(int i, List<dynamic> object) {
+    List<String> cell = [];
+    for (var j = 0; j < object.length; j++) {
+      String v = "";
+      if (ArrayM.isIndexOutOfRange(j, _info[0].info[i]['data'].length)) {
+        v = "n/a";
+        cell.add(v);
+      } else {
+        v = _info[0].info[i]['data'][j]['info'];
+        if (v.isEmpty) {
+          cell.add("");
+        } else {
+          cell.add(dencrypt(v));
+        }
+      }
+    }
+    return cell;
   }
 
   TextStyle textStyleSubItems() {
     return const TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
+  }
+
+  String dencrypt(String info) {
+    return Encryption.decrypt(info, widget.id + widget.id + widget.id);
+  }
+
+  Widget _buildEditDialog(
+      ExpandableRow row, Function(ExpandableRow) onSuccess) {
+    return AlertDialog(
+      title: SizedBox(
+        height: 300,
+        child: TextButton(
+          child: const Text("Change name"),
+          onPressed: () {
+            row.cells[1].value = "x3";
+            onSuccess(row);
+          },
+        ),
+      ),
+    );
   }
 }

@@ -19,4 +19,20 @@ class Snack {
           message),
     );
   }
+
+  static snackError(String message) {
+    return SnackBar(
+      shape: const StadiumBorder(),
+      backgroundColor: Colors.red,
+      behavior: SnackBarBehavior.floating,
+      margin: EdgeInsets.all(10),
+      elevation: 30.0,
+      showCloseIcon: true,
+      closeIconColor: Colors.white,
+      content: Text(
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          message),
+    );
+  }
 }

@@ -40,10 +40,9 @@ class _FormCheckBoxListState extends State<FormCheckBoxList> {
                 } else {
                   chosenItems.removeAt(index);
                 }
-                var info =
-                    Provider.of<FormInfoViewModel>(context, listen: false).info;
+
                 context.read<FormInfoViewModel>().addInfo(
-                    {'label': widget.label, 'info': chosenItems}, info.length);
+                    {'label': widget.label, 'info': chosenItems.join(",")});
                 setState(() {});
               }
             },

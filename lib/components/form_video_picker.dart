@@ -9,23 +9,40 @@ import 'package:provider/provider.dart';
 import '../app/app_const.dart';
 import '../view_models/form_info_view_model.dart';
 
-class FormVideoPicker {
-  static videoPicker({required String label, required BuildContext context}) {
+class FormVideoPicker extends StatefulWidget {
+  const FormVideoPicker({Key? key, required this.label}) : super(key: key);
+
+  final String label;
+
+  @override
+  FormVideoPickerState createState() => FormVideoPickerState();
+}
+
+class FormVideoPickerState extends State<FormVideoPicker> {
+  String _video = "";
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
-        title: 'Pick Video',
+        title: _video.isEmpty ? 'Pick Video' : _video,
         onPress: () async {
           final ImagePicker _picker = ImagePicker();
           final XFile? pickedFile = await _picker.pickVideo(
             source: ImageSource.gallery,
           );
           // videoPicked = pickedFile;
-          var info =
-              Provider.of<FormInfoViewModel>(context, listen: false).info;
+
+          setState(() {
+            _video = pickedFile != null
+                ? "video picked, click to change"
+                : "no file";
+          });
+
           context
               .read<FormInfoViewModel>()
-              .addInfo({'label': label, 'info': pickedFile?.path}, info.length);
+              .addInfo({'label': widget.label, 'info': pickedFile?.path});
         },
       ),
     );

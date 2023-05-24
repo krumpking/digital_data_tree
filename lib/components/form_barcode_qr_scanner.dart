@@ -74,12 +74,10 @@ class BarQRcodeScannerPageViewState extends State<BarQRcodeScannerPageView>
                         onPress: () {
                           if (capture?.barcodes.first.rawValue != null) {
                             String? res = capture?.barcodes.first.rawValue;
-                            var info = Provider.of<FormInfoViewModel>(context,
-                                    listen: false)
-                                .info;
+
                             context.read<FormInfoViewModel>().addInfo(
-                                {'label': widget.label, 'info': res},
-                                info.length);
+                              {'label': widget.label, 'info': res},
+                            );
                             Navigator.pop(context);
                           }
                         })

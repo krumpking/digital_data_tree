@@ -4,18 +4,17 @@ import 'package:flutter/cupertino.dart';
 import '../models/form_model.dart';
 
 class FormInfoViewModel extends ChangeNotifier {
-  List<List<Map<String, dynamic>>> info = [];
+  List<Map<String, dynamic>> info = [];
   int currentIndex = 0;
   int infoFinalIndex = 0;
   List<Info> infoFinal = [];
 
   // Add information to labels
-  void addInfo(Map<String, dynamic> newInfo, int index) {
-    if (check(newInfo[index]['label'], index)) {
-      info[currentIndex]
-          .add({'label': newInfo['label'], 'info': newInfo['info']});
+  void addInfo(Map<String, dynamic> newInfo) {
+    if (check(newInfo['label'])) {
+      info[currentIndex] = {'label': newInfo['label'], 'info': newInfo['info']};
     } else {
-      info[index].add(newInfo);
+      info.add(newInfo);
     }
 
     notifyListeners();
@@ -23,16 +22,16 @@ class FormInfoViewModel extends ChangeNotifier {
 
   // Add the whole Object of Form info
   void addInfoFinal(Info info) {
-    if (!checkFinal(info.id)) {
+    if (checkFinal(info.infoId)) {
       var currInfo = infoFinal[infoFinalIndex].info;
       Info particularForm = Info(
+          title: infoFinal[infoFinalIndex].title,
+          descr: infoFinal[infoFinalIndex].descr,
           dateCreated: infoFinal[infoFinalIndex].dateCreated,
           editorId: infoFinal[infoFinalIndex].editorId,
-          editorNumber: infoFinal[infoFinalIndex].editorId,
           encryption: 1,
-          id: infoFinal[infoFinalIndex].id,
-          info: currInfo);
-      particularForm.info.add(info.info);
+          infoId: infoFinal[infoFinalIndex].infoId,
+          info: info.info);
 
       infoFinal[infoFinalIndex] = particularForm;
     } else {
@@ -47,15 +46,16 @@ class FormInfoViewModel extends ChangeNotifier {
 
   Info getFormInfo(String id) {
     Info particularForm = Info(
+        title: "",
+        descr: "",
         dateCreated: '',
         editorId: '',
-        editorNumber: '',
         encryption: 0,
-        id: "",
+        infoId: "",
         info: []);
 
     for (var element in infoFinal) {
-      if (element.id == id) {
+      if (element.infoId == id) {
         particularForm = element;
       }
     }
@@ -63,16 +63,18 @@ class FormInfoViewModel extends ChangeNotifier {
     return particularForm;
   }
 
-  bool check(String label, int index) {
+  bool check(String label) {
     bool res = false;
 
-    for (var i = 0; i < info[index].length; i++) {
-      var map = info[index][i];
-      if (map['label'] == label) {
-        // If the variable is present in the map, set the variableExists variable to true.
-        res = true;
-        currentIndex = i;
-        break;
+    if (info.isNotEmpty) {
+      for (var i = 0; i < info.length; i++) {
+        var map = info[i];
+        if (map['label'] == label) {
+          // If the variable is present in the map, set the variableExists variable to true.
+          res = true;
+          currentIndex = i;
+          break;
+        }
       }
     }
 
@@ -84,7 +86,7 @@ class FormInfoViewModel extends ChangeNotifier {
 
     for (var i = 0; i < infoFinal.length; i++) {
       var map = infoFinal[i];
-      if (map.id == id) {
+      if (map.infoId == id) {
         // If the variable is present in the map, set the variableExists variable to true.
         res = true;
         infoFinalIndex = i;

@@ -5,7 +5,7 @@
 
      
    <application
-        android:label="digital_data_tree"
+        android:label="Digital Data Tree"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
