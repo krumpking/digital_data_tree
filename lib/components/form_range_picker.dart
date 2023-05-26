@@ -20,7 +20,16 @@ class FormRangePicker extends StatefulWidget {
 }
 
 class FormRangePickerState extends State<FormRangePicker> {
-  dynamic range;
+  late RangeValues range;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      range = RangeValues(widget.min, widget.max);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +40,13 @@ class FormRangePickerState extends State<FormRangePicker> {
       child: RangeSlider(
         inactiveColor: Colors.grey,
         activeColor: AppColors.primaryColor,
-        values: range ?? const RangeValues(0, 10),
+        values: range,
         min: widget.min,
         max: widget.max,
-        divisions: 5,
+        divisions: 10,
         labels: RangeLabels(
-          widget.min.toString(),
-          widget.max.toString(),
+          range.start.toString(),
+          range.end.toString(),
         ),
         onChanged: (RangeValues values) {
           setState(() {
@@ -46,7 +55,8 @@ class FormRangePickerState extends State<FormRangePicker> {
 
           context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
-            'info': '${values.start} - ${values.end}'
+            'info': '${values.start} - ${values.end}',
+            'element': 15
           });
         },
       ),

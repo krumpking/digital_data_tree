@@ -11,12 +11,25 @@ import 'package:provider/provider.dart';
 import '../app/app_const.dart';
 import '../view_models/form_info_view_model.dart';
 
-class FormColorPicker {
-  static colorPicker({required BuildContext context, required String label}) {
+class FormColorPicker extends StatefulWidget {
+  const FormColorPicker({Key? key, required this.label}) : super(key: key);
+
+  final String label;
+
+  @override
+  FormColorPickerState createState() => FormColorPickerState();
+}
+
+class FormColorPickerState extends State<FormColorPicker> {
+  String _pickedColor = "";
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: AppButton.normalButton(
-        title: 'Pick Color',
+        title: _pickedColor.isEmpty
+            ? 'Pick Color'
+            : 'Picked $_pickedColor ,tap to change',
         onPress: () async {
           showDialog(
             context: context,
@@ -39,9 +52,14 @@ class FormColorPicker {
                     onColorChanged: (colorValue) {
                       // color = colorValue.value.toRadixString(16);
 
+                      setState(() {
+                        _pickedColor = colorValue.value.toRadixString(16);
+                      });
+
                       context.read<FormInfoViewModel>().addInfo({
-                        'label': label,
-                        'info': colorValue.value.toRadixString(16)
+                        'label': widget.label,
+                        'info': colorValue.value.toRadixString(16),
+                        'element': 14
                       });
                     },
                     enableLabel: true,

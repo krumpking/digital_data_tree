@@ -15,7 +15,7 @@ class FormShortText {
           onChanged: (value) {
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value});
+                .addInfo({'label': label, 'info': value, 'element': 0});
           },
           cursorColor: AppColors.fifthColor,
           decoration: InputDecoration(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:digital_data_tree/components/app_buttons.dart';
+import 'package:digital_data_tree/components/snack.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +41,22 @@ class FormFilePickerState extends State<FormFilePicker> {
           // print(result.files.first.size);
           // print(result.files.first.path);
           // pickedFile = result;
-          setState(() {
-            _file = "file picked, click to change";
-          });
 
-          context.read<FormInfoViewModel>().addInfo(
-              {'label': widget.label, 'info': result.files.first.path});
+          if (result.files.first.size > 30 * 1024 * 1024) {
+            ScaffoldMessenger.of(context).showSnackBar(Snack.snackError(
+                'You can only pick images that are 30MB and below'));
+          } else {
+            setState(() {
+              _file = "file picked, click to change";
+            });
+
+            context.read<FormInfoViewModel>().addInfo({
+              'label': widget.label,
+              'info': result.files.first.name,
+              'element': 13,
+              'filePath': result.files.first.path
+            });
+          }
         },
       ),
     );

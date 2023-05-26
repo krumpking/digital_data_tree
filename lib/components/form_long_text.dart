@@ -16,7 +16,7 @@ class FormLongText {
           onChanged: (value) {
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value});
+                .addInfo({'label': label, 'info': value, 'element': 1});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

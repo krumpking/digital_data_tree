@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aes256gcm/aes256gcm.dart';
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:digital_data_tree/screens/form_capture_screen/form_capture_info_
 import 'package:digital_data_tree/screens/form_data/form_data.dart';
 import 'package:digital_data_tree/utils/random.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
@@ -39,6 +42,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
   final UserRepository _userRepository = GetIt.I.get();
   bool _loading = false;
   final db = FirebaseFirestore.instance;
+  final FirebaseStorage storage = FirebaseStorage.instance;
 
   @override
   void dispose() {
@@ -146,7 +150,25 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
       if (element['info'] != null) {
         encrypted = encrypt(element['info']);
       }
-      finalInfo.add({'label': element['label'], 'info': encrypted});
+
+      if (element['element'] == 11 ||
+          element['element'] == 12 ||
+          element['element'] == 13) {
+        ScaffoldMessenger.of(context).showSnackBar(Snack.snackError(
+            'DO NOT DELETE THE FILE YOU SELECTED, UNTIL YOU UPLOAD TO THE CLOUD'));
+        finalInfo.add({
+          'label': element['label'],
+          'info': encrypted,
+          'element': element['element'],
+          'filePath': element['filePath']
+        });
+      } else {
+        finalInfo.add({
+          'label': element['label'],
+          'info': encrypted,
+          'element': element['element'],
+        });
+      }
     }
 
     // Get current user
@@ -156,7 +178,18 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
     DateTime date = DateTime.now();
 
     List<Map<String, dynamic>> containerList = [];
-    containerList.add({"data": finalInfo, "editorNumber": user[0].phoneNumber});
+
+    // Convert the date and time to a local date and time.
+    DateTime localDate = date.toLocal();
+
+    // Convert the date and time to a string.
+    String dateString = localDate.toString();
+
+    containerList.add({
+      "data": finalInfo,
+      "editorNumber": user[0].phoneNumber,
+      'date': dateString
+    });
 
     // Create info
     var infoModel = Info(
@@ -180,6 +213,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
       _infoRepository.insertInfo(infoModel).then((value) {
         ScaffoldMessenger.of(context)
             .showSnackBar(Snack.snack('Information captured'));
+        context.read<FormInfoViewModel>().removeAllInfo();
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -196,21 +230,46 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
       _loading = true;
     });
 
-    List<dynamic> _info = await _infoRepository.getInfo(widget.form.id);
+    List<dynamic> info = await _infoRepository.getInfo(widget.form.id);
 
     Map<String, dynamic> data = {
-      'title': _info[0].title,
-      'descr': _info[0].descr,
-      'infoId': _info[0].infoId,
-      'encryption': _info[0].encryption,
-      'dateCreated': _info[0].dateCreated,
-      'info': _info[0].info,
-      'editorId': _info[0].editorId,
+      'title': info[0].title,
+      'descr': info[0].descr,
+      'infoId': info[0].infoId,
+      'encryption': info[0].encryption,
+      'dateCreated': info[0].dateCreated,
+      'info': info[0].info,
+      'editorId': info[0].editorId,
     };
+
+    for (var i = 0; i < info[0].info.length; i++) {
+      var el = info[0].info[i]['data'];
+      for (var j = 0; j < el.length; j++) {
+        var element = el[j];
+        if (element['element'] == 11 ||
+            element['element'] == 12 ||
+            element['element'] == 13) {
+          if (element['filePath'] != null) {
+            String filePath = element['filePath'];
+            final file = File(filePath);
+            final ref = storage.ref().child(
+                '/${info[0].infoId}/${element['element']}/${decrypt(element['info'])}');
+
+            try {
+              await ref.putFile(file);
+            } catch (e) {
+              // ...
+              ScaffoldMessenger.of(context).showSnackBar(Snack.snackError(
+                  'Error uploading your file, please try again'));
+            }
+          }
+        }
+      }
+    }
 
     final dataFromDB = await db
         .collection("data")
-        .where("infoId", isEqualTo: _info[0].infoId)
+        .where("infoId", isEqualTo: info[0].infoId)
         .get();
 
     if (dataFromDB.docs.isNotEmpty) {
@@ -225,8 +284,6 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
           _loading = false;
         });
       }, onError: (e) {
-        print("Error updating document $e");
-        print("Error updating document $e");
         ScaffoldMessenger.of(context).showSnackBar(
             Snack.snackError('There was an error updating the information'));
 
@@ -243,7 +300,6 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
           _loading = false;
         });
       }, onError: (e) {
-        print("Error updating document $e");
         ScaffoldMessenger.of(context).showSnackBar(
             Snack.snackError('There was an error updloading the information'));
 
@@ -256,6 +312,11 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
 
   String encrypt(String info) {
     return Encryption.encrypt(
+        info, widget.form.id + widget.form.id + widget.form.id);
+  }
+
+  String decrypt(String info) {
+    return Encryption.decrypt(
         info, widget.form.id + widget.form.id + widget.form.id);
   }
 }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:digital_data_tree/components/app_buttons.dart';
+import 'package:digital_data_tree/components/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -29,20 +32,31 @@ class FormImagePickerState extends State<FormImagePicker> {
               final ImagePicker _picker = ImagePicker();
               final XFile? pickedFile = await _picker.pickImage(
                 source: ImageSource.gallery,
-                maxWidth: 2,
-                maxHeight: 2,
-                imageQuality: 100,
               );
               // image = pickedFile?.path;
 
               if (pickedFile != null) {
-                setState(() {
-                  _image = "image picked, click to change";
-                });
+                File imageF = File(pickedFile.path);
+                if (imageF.lengthSync() > 30 * 1024 * 1024) {
+                  ScaffoldMessenger.of(context).showSnackBar(Snack.snackError(
+                      'You can only pick images that are 30MB and below'));
+                } else {
+                  setState(() {
+                    _image = "image picked, click to change";
+                  });
 
-                context.read<FormInfoViewModel>().addInfo(
-                  {'label': widget.label, 'info': pickedFile.path},
-                );
+                  context.read<FormInfoViewModel>().addInfo(
+                    {
+                      'label': widget.label,
+                      'info': pickedFile.name,
+                      'element': 11,
+                      'filePath': pickedFile.path
+                    },
+                  );
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(Snack.snackError(
+                    'There was an error picking image,please try again'));
               }
             } catch (e) {
               print(e);

@@ -27,35 +27,39 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
   // Short Text 0
   (dynamic hintText, dynamic label, dynamic arg3, dynamic arg4) {
     return FormShortText.shortText(
-        hintText: hintText, label: label, context: arg4);
+        hintText: hintText, label: hintText, context: arg4);
   },
   // Long Text 1
   (dynamic hintText, dynamic label, dynamic arg3, dynamic arg4) {
     return FormLongText.longText(
-        hintText: hintText, label: label, context: arg4);
+        hintText: hintText, label: hintText, context: arg4);
   },
   // Number Text 2
   (dynamic hintText, dynamic label, dynamic arg3, dynamic arg4) {
     return FormNumberText.numberText(
-        hintText: hintText, label: label, context: arg4);
+        hintText: hintText, label: hintText, context: arg4);
   },
   //  Email text 3
   (dynamic hintText, dynamic label, dynamic arg3, dynamic arg4) {
     return FormEmailText.emailText(
-        hintText: hintText, label: label, context: arg4);
+        hintText: hintText, label: hintText, context: arg4);
   },
   // Password 4
   (dynamic hintText, dynamic label, dynamic arg3, dynamic arg4) {
     return FormPasswordText.passwordText(
-        hintText: hintText, label: label, context: arg4);
+        hintText: hintText, label: hintText, context: arg4);
   },
   // Multiple selection 5
   (dynamic label, dynamic items, dynamic arg3, dynamic arg4) {
-    return FormDropdown(items: items, label: label);
+    List<dynamic> myList = items.map((e) => e as String).toList();
+    List<String> myStringList = myList.cast<String>().toList();
+    return FormDropdown(items: myStringList, label: label);
   },
   // Checkbox 6
   (dynamic label, dynamic items, dynamic arg3, dynamic arg4) {
-    return FormCheckBoxList(items: items, label: label);
+    List<dynamic> myList = items.map((e) => e as String).toList();
+    List<String> myStringList = myList.cast<String>().toList();
+    return FormCheckBoxList(items: myStringList, label: label);
   },
   // time 7
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
@@ -93,11 +97,14 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
   },
   // color picker 14
   (dynamic label, dynamic arg, dynamic arg3, dynamic arg4) {
-    return FormColorPicker.colorPicker(context: arg4, label: label);
+    return FormColorPicker(label: label);
   },
   // range picker 15
   (dynamic label, dynamic min, dynamic max, dynamic arg4) {
-    return FormRangePicker(max: max, min: min, label: label);
+    int maxInt = max;
+    int minInt = min;
+    return FormRangePicker(
+        max: maxInt.toDouble(), min: minInt.toDouble(), label: label);
   },
   // location picker 16
   (dynamic label, dynamic arg2, dynamic arg3, dynamic arg4) {
@@ -135,7 +142,8 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
         title: 'Get Barcode Reader',
         onPress: () {
           Navigator.of(arg4).push(MaterialPageRoute(
-            builder: ((context) => BarQRcodeScannerPageView(label: label)),
+            builder: ((context) =>
+                BarQRcodeScannerPageView(label: label, element: 19)),
           ));
         });
   },
@@ -145,7 +153,8 @@ List<Widget Function(dynamic arg1, dynamic arg2, dynamic arg3, dynamic arg4)>
         title: 'Get QR Code Scanner',
         onPress: () {
           Navigator.of(arg4).push(MaterialPageRoute(
-            builder: ((context) => BarQRcodeScannerPageView(label: label)),
+            builder: ((context) =>
+                BarQRcodeScannerPageView(label: label, element: 20)),
           ));
         });
     ;

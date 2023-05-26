@@ -18,7 +18,7 @@ class FormPasswordText {
           onChanged: (value) {
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value});
+                .addInfo({'label': label, 'info': value, 'element': 4});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

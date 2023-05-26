@@ -1,10 +1,13 @@
 import 'package:digital_data_tree/app/app_const.dart';
+import 'package:digital_data_tree/components/snack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:open_street_map_search_and_pick/open_street_map_search_and_pick.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-import '../app/location_services.dart';
 import '../view_models/form_info_view_model.dart';
 
 class FormLocationPicker extends StatefulWidget {
@@ -25,11 +28,19 @@ class FormLocationPicker extends StatefulWidget {
 }
 
 class _FormLocationPicker extends State<FormLocationPicker> {
-  final LocationService locationService = LocationService();
+  var _centerLocation = LatLong(-17.824858, 31.053028);
+  var _currLocation = LatLong(-17.824858, 31.053028);
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -42,7 +53,7 @@ class _FormLocationPicker extends State<FormLocationPicker> {
       width: size.width,
       child: OpenStreetMapSearchAndPick(
         locationPinIconColor: AppColors.primaryColor,
-        center: LatLong(-17.824858, 31.053028),
+        center: _centerLocation,
         buttonColor: AppColors.primaryColor,
         buttonText: 'Set Location',
         onPicked: (pickedData) {
@@ -50,16 +61,46 @@ class _FormLocationPicker extends State<FormLocationPicker> {
           // print(pickedData.latLong.longitude);
           // print(pickedData.address);
           // Navigator.pop(context, pickedData);
+          setState(() {
+            _centerLocation = LatLong(
+                pickedData.latLong.latitude, pickedData.latLong.longitude);
+          });
 
           context.read<FormInfoViewModel>().addInfo({
             'label': widget.label,
             'info':
-                'Lat${pickedData.latLong.latitude}Lng:${pickedData.latLong.longitude}'
+                'Lat${pickedData.latLong.latitude}Lng:${pickedData.latLong.longitude}',
+            'element': 16
           });
           Navigator.pop(context);
         },
-        onGetCurrentLocationPressed: locationService.getPosition,
       ),
     ));
+  }
+
+  void _getCurrentLocation() async {
+    var status = await Permission.location.status;
+    // if (await Permission.location.serviceStatus.isEnabled) {
+
+    if (status.isGranted) {
+      Position position = await Geolocator.getCurrentPosition();
+      setState(() {
+        _centerLocation = LatLong(position.latitude, position.longitude);
+      });
+    } else if (status.isDenied) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(Snack.snackError('Enable location permissions'));
+
+      await Future.delayed(const Duration(seconds: 2));
+      // openAppSettings();
+      Map<Permission, PermissionStatus> status = await [
+        Permission.location,
+      ].request();
+    }
+    // } else {
+
+    // permission is disabled
+    // if (await Permission.location.isPermanentlyDenied) {}
+    // }
   }
 }

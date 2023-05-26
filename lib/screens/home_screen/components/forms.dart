@@ -12,6 +12,7 @@ import '../../../app/app_const.dart';
 import '../../../components/snack.dart';
 import '../../../repositories_abstracts/form_repository.dart';
 import '../../../repositories_abstracts/user_repository.dart';
+import '../../../view_models/search_view_model.dart';
 import '../../../view_models/user_view_model.dart';
 
 class Forms extends StatefulWidget {
@@ -23,6 +24,7 @@ class Forms extends StatefulWidget {
 
 class _FormsState extends State<Forms> {
   List<FormModel> _forms = [];
+  List<FormModel> _tempForms = [];
   final db = FirebaseFirestore.instance;
   final UserRepository _userRepository = GetIt.I.get();
   final FormRepository _formRepository = GetIt.I.get();
@@ -118,9 +120,11 @@ class _FormsState extends State<Forms> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                form.title,
+                                form.title.length > 15
+                                    ? '${form.title.substring(0, 14)}..'
+                                    : form.title,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                    fontWeight: FontWeight.bold, fontSize: 15),
                               ),
                               Container(
                                 padding:
@@ -144,7 +148,7 @@ class _FormsState extends State<Forms> {
                 ),
               ),
             );
-          }, childCount: _forms.length),
+          }, childCount: _tempForms.length),
         ));
   }
 
@@ -181,6 +185,7 @@ class _FormsState extends State<Forms> {
         var latestForms = await _formRepository.getForms();
         setState(() {
           _forms = latestForms as List<FormModel>;
+          _tempForms = latestForms;
         });
       }
     } on SocketException catch (_) {
@@ -188,8 +193,52 @@ class _FormsState extends State<Forms> {
           Snack.snack('You are currently not connected to the internet!'));
       setState(() {
         _forms = currForms as List<FormModel>;
+        _tempForms = currForms;
       });
     }
+  }
+
+  List<FormModel> _search(BuildContext context) {
+    // Do something
+    var search =
+        Provider.of<SearchViewModel>(context, listen: false).searchString;
+
+    setState(() {
+      _tempForms = [];
+    });
+
+    List<FormModel> searchRes = [];
+
+    for (FormModel form in _forms) {
+      if (form.title == search || form.desc == search) {
+        searchRes.add(form);
+      } else {
+        bool isMatch = false;
+        for (int i = 0; i < form.title.length; i++) {
+          if (form.title[i] == search[0]) {
+            isMatch = true;
+            for (int j = 1; j < search.length; j++) {
+              if (form.title[i + j] != search[j]) {
+                isMatch = false;
+                break;
+              }
+            }
+            if (isMatch) {
+              searchRes.add(form);
+              break;
+            }
+          }
+        }
+      }
+      if (searchRes.length < 1) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(Snack.snackError('No Forms matching $search found'));
+      }
+      setState(() {
+        _tempForms = searchRes.isNotEmpty ? searchRes : _forms;
+      });
+    }
+    return searchRes.isNotEmpty ? searchRes : _forms;
   }
 
   bool check(FormModel form, List<FormModel> currForms) {

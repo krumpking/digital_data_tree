@@ -20,6 +20,8 @@ class TextRecognition extends StatefulWidget {
 class _TextRecognition extends State<TextRecognition>
     with WidgetsBindingObserver {
   bool _isPermissionGranted = false;
+  String _scanResult = "Scan something";
+  bool _scanDone = false;
 
   late final Future<void> _future;
   final textRecognizer = TextRecognizer();
@@ -91,13 +93,34 @@ class _TextRecognition extends State<TextRecognition>
                           child: Container(),
                         ),
                         Container(
+                          width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.only(bottom: 30.0),
-                          child: Center(
-                              child: AppButton.normalButton(
-                                  title: 'Scan Text',
+                          child: Column(
+                            children: [
+                              Text(
+                                _scanResult,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                              AppButton.normalButton(
+                                  title: _scanDone ? 'Done' : 'Scan Text',
                                   onPress: () {
-                                    _scanImage(widget.label);
-                                  })),
+                                    if (_scanDone) {
+                                      context
+                                          .read<FormInfoViewModel>()
+                                          .addInfo({
+                                        'label': widget.label,
+                                        'info': _scanResult,
+                                        'element': 18
+                                      });
+
+                                      Navigator.pop(context);
+                                    } else {
+                                      _scanImage(widget.label);
+                                    }
+                                  })
+                            ],
+                          ),
                         ),
                       ],
                     )
@@ -180,11 +203,10 @@ class _TextRecognition extends State<TextRecognition>
       final inputImage = InputImage.fromFile(file);
       final recognizedText = await textRecognizer.processImage(inputImage);
 
-      context
-          .read<FormInfoViewModel>()
-          .addInfo({'label': label, 'info': recognizedText.text});
-
-      Navigator.pop(context);
+      setState(() {
+        _scanResult = recognizedText.text;
+        _scanDone = true;
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

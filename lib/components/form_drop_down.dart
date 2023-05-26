@@ -38,7 +38,7 @@ class FormDropdownState extends State<FormDropdown> {
             value: value,
             child: Text(
               value,
-              style: TextStyle(fontSize: 30),
+              style: const TextStyle(fontSize: 15),
             ),
           );
         }).toList(),
@@ -51,7 +51,7 @@ class FormDropdownState extends State<FormDropdown> {
 
           context
               .read<FormInfoViewModel>()
-              .addInfo({'label': widget.label, 'info': newValue});
+              .addInfo({'label': widget.label, 'info': newValue, 'element': 5});
         },
       ),
     ));

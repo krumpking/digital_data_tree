@@ -1,15 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.digital_data_tree">
 
-     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
      
    <application
         android:label="Digital Data Tree"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
-       
+        
 
         <activity
             android:name=".MainActivity"

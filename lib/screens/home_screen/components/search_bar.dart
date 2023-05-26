@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../app/app_const.dart';
+import '../../../view_models/search_view_model.dart';
 
 class SearchBar extends StatelessWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -14,6 +16,9 @@ class SearchBar extends StatelessWidget {
         child: SizedBox(
           height: 45,
           child: TextFormField(
+            onFieldSubmitted: (value) {
+              context.read<SearchViewModel>().setSearch(value);
+            },
             decoration: InputDecoration(
               focusColor: AppColors.fifthColor,
               enabledBorder: OutlineInputBorder(

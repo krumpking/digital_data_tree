@@ -12,7 +12,11 @@ class FormInfoViewModel extends ChangeNotifier {
   // Add information to labels
   void addInfo(Map<String, dynamic> newInfo) {
     if (check(newInfo['label'])) {
-      info[currentIndex] = {'label': newInfo['label'], 'info': newInfo['info']};
+      info[currentIndex] = {
+        'label': newInfo['label'],
+        'info': newInfo['info'],
+        'element': newInfo['element']
+      };
     } else {
       info.add(newInfo);
     }
@@ -41,6 +45,11 @@ class FormInfoViewModel extends ChangeNotifier {
 
   void removeInfo(int index) {
     info.removeAt(index);
+    notifyListeners();
+  }
+
+  void removeAllInfo() {
+    info = [];
     notifyListeners();
   }
 

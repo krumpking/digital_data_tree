@@ -16,7 +16,7 @@ class FormNumberText {
           onChanged: (value) {
             context
                 .read<FormInfoViewModel>()
-                .addInfo({'label': label, 'info': value});
+                .addInfo({'label': label, 'info': value, 'element': 2});
           },
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hand_signature/signature.dart';
@@ -16,6 +19,8 @@ class FormSignature extends StatelessWidget {
     smoothRatio: 0.65,
     velocityRange: 2.0,
   );
+
+  ValueNotifier<ByteData?> rawImage = ValueNotifier<ByteData?>(null);
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +62,19 @@ class FormSignature extends StatelessWidget {
                         child: AppButton.normalButton(
                             title: "Save",
                             onPress: () async {
-                              var res = await control.toImage(
-                                color: Colors.blueAccent,
-                                background: Colors.white,
-                                fit: false,
-                              );
+                              final png = await control.toImage();
 
-                              context.read<FormInfoViewModel>().addInfo(
-                                  {'label': label, 'info': res.toString()});
-                              Navigator.pop(context);
+                              if (png != null) {
+                                Uint8List pngBytes = png.buffer.asUint8List();
+                                String bs64 = base64Encode(pngBytes);
+
+                                context.read<FormInfoViewModel>().addInfo({
+                                  'label': label,
+                                  'info': bs64,
+                                  'element': 17
+                                });
+                                Navigator.pop(context);
+                              }
                             }),
                       ),
                       SizedBox(
@@ -78,6 +87,7 @@ class FormSignature extends StatelessWidget {
                             title: "Clear",
                             onPress: () async {
                               control.clear();
+                              rawImage.value = null;
                             }),
                       ),
                     ],

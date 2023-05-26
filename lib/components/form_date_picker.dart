@@ -22,9 +22,8 @@ class FormDatePicker {
             onDateTimeChanged: (DateTime value) {
               // date = value.toString();
 
-              context
-                  .read<FormInfoViewModel>()
-                  .addInfo({'label': label, 'info': value.toString()});
+              context.read<FormInfoViewModel>().addInfo(
+                  {'label': label, 'info': value.toString(), 'element': 10});
             },
           ),
         ));

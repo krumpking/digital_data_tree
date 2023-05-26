@@ -5,6 +5,7 @@ import 'package:digital_data_tree/utils/dates.dart';
 import 'package:digital_data_tree/utils/init.dart';
 import 'package:digital_data_tree/view_models/form_info_view_model.dart';
 import 'package:digital_data_tree/screens/welcome_screen/welcome_screen.dart';
+import 'package:digital_data_tree/view_models/search_view_model.dart';
 import 'package:digital_data_tree/view_models/user_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => UserViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SearchViewModel(),
         ),
       ],
       child: MyApp(),

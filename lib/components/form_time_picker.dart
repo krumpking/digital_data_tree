@@ -32,7 +32,8 @@ class FormTimePicker extends StatelessWidget {
 
               context.read<FormInfoViewModel>().addInfo({
                 'label': label,
-                'info': '${p0.hour}:${p0.minute}:${p0.second}'
+                'info': '${p0.hour}:${p0.minute}:${p0.second}',
+                'element': 7
               });
 
               Navigator.pop(context);

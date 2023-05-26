@@ -23,7 +23,7 @@ class FormMonthPicker {
           //monthPicked = selectedDate.toString();
 
           context.read<FormInfoViewModel>().addInfo(
-            {'label': label, 'info': selectedDate.toString()},
+            {'label': label, 'info': selectedDate.toString(), 'element': 9},
           );
         },
       ),

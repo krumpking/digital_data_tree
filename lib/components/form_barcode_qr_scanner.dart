@@ -7,9 +7,11 @@ import 'package:provider/provider.dart';
 import '../view_models/form_info_view_model.dart';
 
 class BarQRcodeScannerPageView extends StatefulWidget {
-  const BarQRcodeScannerPageView({Key? key, required this.label})
+  const BarQRcodeScannerPageView(
+      {Key? key, required this.label, required this.element})
       : super(key: key);
   final String label;
+  final int element;
 
   @override
   BarQRcodeScannerPageViewState createState() =>
@@ -76,7 +78,11 @@ class BarQRcodeScannerPageViewState extends State<BarQRcodeScannerPageView>
                             String? res = capture?.barcodes.first.rawValue;
 
                             context.read<FormInfoViewModel>().addInfo(
-                              {'label': widget.label, 'info': res},
+                              {
+                                'label': widget.label,
+                                'info': res,
+                                'element': widget.element
+                              },
                             );
                             Navigator.pop(context);
                           }

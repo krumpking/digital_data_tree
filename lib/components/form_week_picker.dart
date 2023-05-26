@@ -55,9 +55,8 @@ class FormWeekPicker {
               controller.selectedRange = PickerDateRange(dat1, dat2);
               // Add to provider
 
-              context
-                  .read<FormInfoViewModel>()
-                  .addInfo({'label': label, 'info': '$dat1 - $dat2'});
+              context.read<FormInfoViewModel>().addInfo(
+                  {'label': label, 'info': '$dat1 - $dat2', 'element': 8});
             }
           },
           monthViewSettings:

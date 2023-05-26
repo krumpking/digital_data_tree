@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../components/form_file_picker.dart';
 import '../../components/form_video_picker.dart';
+import '../../components/snack.dart';
 import '../../view_models/form_info_view_model.dart';
 
 class FormCaptureInfoScreen extends StatefulWidget {
@@ -12,11 +13,11 @@ class FormCaptureInfoScreen extends StatefulWidget {
   final List<dynamic> list;
 
   @override
-  State<FormCaptureInfoScreen> createState() => _FFormCaptureInfoScreenState();
+  State<FormCaptureInfoScreen> createState() => _FormCaptureInfoScreenState();
 }
 
-class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
-  List<dynamic> list = [
+class _FormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
+  List<dynamic> elList = [
     {
       'elementId': 0,
       'id': 'x',
@@ -191,13 +192,9 @@ class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    var info = Provider.of<FormInfoViewModel>(context, listen: false).info;
-    if (info.isNotEmpty) {
-      print('INFO INFO INFO ${info[info.length - 1]}');
-    }
 
     return ListView.builder(
-      itemCount: list.length,
+      itemCount: widget.list.sublist(0, widget.list.length - 1).length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -211,15 +208,15 @@ class _FFormCaptureInfoScreenState extends State<FormCaptureInfoScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 5, 10, 5),
-                    child: Text('${list[index]['label']}'),
+                    child: Text('${widget.list[index]['label']}'),
                   ),
                   const SizedBox(height: 8.0),
                   Container(
                     constraints: BoxConstraints(maxHeight: height / 5),
-                    child: elementList[list[index]['elementId']](
-                        list[index]['label'],
-                        list[index]['arg2'],
-                        list[index]['arg3'],
+                    child: elementList[widget.list[index]['elementId']](
+                        widget.list[index]['label'],
+                        widget.list[index]['arg2'],
+                        widget.list[index]['arg3'],
                         context),
                   ),
                 ],
