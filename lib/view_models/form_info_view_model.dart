@@ -9,6 +9,14 @@ class FormInfoViewModel extends ChangeNotifier {
   int infoFinalIndex = 0;
   List<Info> infoFinal = [];
 
+  void createInfoArray(List<Map<String, dynamic>> expectedInfo) {
+    for (var element in expectedInfo) {
+      info.add(element);
+    }
+
+    notifyListeners();
+  }
+
   // Add information to labels
   void addInfo(Map<String, dynamic> newInfo) {
     if (check(newInfo['label'])) {

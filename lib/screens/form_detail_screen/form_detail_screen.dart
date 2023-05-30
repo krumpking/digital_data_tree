@@ -53,6 +53,10 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // do something
+      _addExpectedResults();
+    });
   }
 
   @override
@@ -134,6 +138,16 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
       FormDataScreen(id: widget.form.id),
     ];
     return bottomBarPages[index];
+  }
+
+  void _addExpectedResults() {
+    List<Map<String, dynamic>> elements = [];
+
+    for (var element
+        in widget.form.elements.sublist(0, widget.form.elements.length - 1)) {
+      elements.add({'label': element['label']});
+    }
+    context.read<FormInfoViewModel>().createInfoArray(elements);
   }
 
   void _addInfoToLocalDataBase(
@@ -218,6 +232,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
           Snack.snack('Please ensure you have captured some information'));
+      context.read<FormInfoViewModel>().removeAllInfo();
     }
 
     setState(() {
