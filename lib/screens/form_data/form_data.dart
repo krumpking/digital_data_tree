@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digital_data_tree/app/app_const.dart';
+import 'package:digital_data_tree/components/app_buttons.dart';
 import 'package:digital_data_tree/components/elements.dart';
 import 'package:digital_data_tree/components/loader.dart';
 import 'package:digital_data_tree/repositories_abstracts/info_repository.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/snack.dart';
 import '../../models/info_model.dart';
 import '../../utils/crypto.dart';
 import '../../view_models/form_info_view_model.dart';
@@ -83,16 +85,56 @@ class _FormDataScreenState extends State<FormDataScreen> {
                           rows: _rows
                               .map((row) => DataRow(
                                   cells: row
-                                      .map((cell) => DataCell(Text(
-                                            cell,
-                                          )))
+                                      .map((cell) => DataCell(onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    // title: Text(
+                                                    //     'Update ${cell.length > 2500 ? "Signature Captured" : cell}'),
+                                                    content: Text(cell),
+                                                    // actions: [
+                                                    //   AppButton.normalButton(
+                                                    //     title:
+                                                    //         'Update ${cell.length > 2500 ? "Signature Captured" : cell}',
+                                                    //     onPress: () {
+                                                    //       // Close the dialog
+
+                                                    //       Map<String, dynamic>
+                                                    //           d = _info[0].info[
+                                                    //               _rows.indexOf(
+                                                    //                   row)];
+
+                                                    //       Navigator.pop(
+                                                    //           context);
+                                                    //     },
+                                                    //   ),
+                                                    //   AppButton.normalButton(
+                                                    //     title: 'Cancel',
+                                                    //     onPress: () {
+                                                    //       // Close the dialog
+                                                    //       Navigator.pop(
+                                                    //           context);
+                                                    //     },
+                                                    //   ),
+                                                    // ],
+                                                  );
+                                                });
+                                          },
+                                              Text(
+                                                cell.length > 2500
+                                                    ? "Signature Captured"
+                                                    : cell,
+                                              )))
                                       .toList()))
                               .toList(),
                         )))
                 : const Padding(
                     padding: EdgeInsets.all(20),
                     child: Text(
-                        'Looks like you are yet to collect any information'),
+                        'Looks like you are yet to collect any information / or you uploaded the information to the cloud'),
                   ),
       ),
     );

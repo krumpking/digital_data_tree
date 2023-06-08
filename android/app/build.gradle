@@ -54,7 +54,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.digital_data_tree"
+        applicationId "com.visionisprimary.digitaldatatree"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 21 //flutter.minSdkVersion
@@ -72,10 +72,14 @@ android {
         }
     }
     buildTypes {
-       release {
-           signingConfig signingConfigs.release
-       }
-   }
+        release {
+            signingConfig signingConfigs.release
+        }
+        debug {
+		    signingConfig signingConfigs.debug
+		    ///Your other Debug configs here
+        }
+    }
 }
 
 flutter {
@@ -83,5 +87,7 @@ flutter {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    implementation 'androidx.browser:browser:1.3.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

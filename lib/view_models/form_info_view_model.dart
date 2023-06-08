@@ -10,6 +10,7 @@ class FormInfoViewModel extends ChangeNotifier {
   List<Info> infoFinal = [];
 
   void createInfoArray(List<Map<String, dynamic>> expectedInfo) {
+    info.clear();
     for (var element in expectedInfo) {
       info.add(element);
     }
@@ -57,7 +58,7 @@ class FormInfoViewModel extends ChangeNotifier {
   }
 
   void removeAllInfo() {
-    info = [];
+    info.clear();
     notifyListeners();
   }
 

@@ -213,7 +213,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
         infoId: widget.form.id,
         dateCreated: format.format(date),
         info: containerList,
-        editorId: user[0].userId);
+        editorId: widget.form.creatorId);
 
     // // Add to provider  Version 2 Work
     // if (context.mounted) {
@@ -223,16 +223,17 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
     // _infoRepository.deleteInfo(infoModel);
 
     if (finalInfo.isNotEmpty) {
+      context.read<FormInfoViewModel>().removeAllInfo();
       // // Add to database
       _infoRepository.insertInfo(infoModel).then((value) {
         ScaffoldMessenger.of(context)
             .showSnackBar(Snack.snack('Information captured'));
-        context.read<FormInfoViewModel>().removeAllInfo();
       });
     } else {
+      context.read<FormInfoViewModel>().removeAllInfo();
+
       ScaffoldMessenger.of(context).showSnackBar(
           Snack.snack('Please ensure you have captured some information'));
-      context.read<FormInfoViewModel>().removeAllInfo();
     }
 
     setState(() {
@@ -243,6 +244,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
   void _addInfoToCloudDataBase(BuildContext context) async {
     setState(() {
       _loading = true;
+      currentIndex = 0;
     });
 
     List<dynamic> info = await _infoRepository.getInfo(widget.form.id);
@@ -289,11 +291,26 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
 
     if (dataFromDB.docs.isNotEmpty) {
       String id = "";
+      var currentInfo = info[0].info;
       for (var docSnapshot in dataFromDB.docs) {
         id = docSnapshot.id;
+        currentInfo.addAll(docSnapshot.data()['info']);
       }
-      db.collection("data").doc(id).update(data).then((value) {
+
+      Map<String, dynamic> dataUpdate = {
+        'title': info[0].title,
+        'descr': info[0].descr,
+        'infoId': info[0].infoId,
+        'encryption': info[0].encryption,
+        'dateCreated': info[0].dateCreated,
+        'info': currentInfo,
+        'editorId': info[0].editorId,
+      };
+
+      db.collection("data").doc(id).update(dataUpdate).then((value) async {
         ScaffoldMessenger.of(context).showSnackBar(Snack.snack('Data UPDATED'));
+
+        await _infoRepository.deleteInfo(info[0]);
 
         setState(() {
           _loading = false;
@@ -307,9 +324,11 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
         });
       });
     } else {
-      db.collection("data").add(data).then((documentSnapshot) {
+      db.collection("data").add(data).then((documentSnapshot) async {
         ScaffoldMessenger.of(context)
             .showSnackBar(Snack.snack('Data uploaded to the Cloud!!'));
+
+        await _infoRepository.deleteInfo(info[0]);
 
         setState(() {
           _loading = false;

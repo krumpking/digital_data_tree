@@ -1,4 +1,4 @@
-package com.example.digital_data_tree
+package com.visionisprimary.digitaldatatree
 
 import io.flutter.embedding.android.FlutterActivity
 

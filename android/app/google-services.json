@@ -14,6 +14,82 @@
       },
       "oauth_client": [
         {
+          "client_id": "385959227937-hu3188t58d6tviulbpkd4h7bmn8g59g8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digital_data_tree",
+            "certificate_hash": "18d5ec29e81e249cb3c7f44e6f5d33faa6d1f7d0"
+          }
+        },
+        {
+          "client_id": "385959227937-jnc0gclvdpqdmjsvn1931aa84t4rtc40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digital_data_tree",
+            "certificate_hash": "4075fbd06fb167e2a2770c9deb980c17f81382d8"
+          }
+        },
+        {
+          "client_id": "385959227937-i75v5a6bni96gohgsv5ked5pc8g7imuv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyxAxSiLjFCvZQmAWvBR4qvYmdxErk_HA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385959227937-i75v5a6bni96gohgsv5ked5pc8g7imuv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "385959227937-3luqq2h5pc8dl4nero824ijg3nqksqgt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.digitalDataTree"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385959227937:android:9190b047f50b0d3770e960",
+        "android_client_info": {
+          "package_name": "com.visionisprimary.digitaldatatree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385959227937-i0m4l2lke99s1a27dqo9lcn7shsmp3bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.visionisprimary.digitaldatatree",
+            "certificate_hash": "4075fbd06fb167e2a2770c9deb980c17f81382d8"
+          }
+        },
+        {
+          "client_id": "385959227937-v0cghv2rrq13e5d90ciinhk1fvf81m2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.visionisprimary.digitaldatatree",
+            "certificate_hash": "cf7962b7dac1d196393b9c6d7eb229849d38d791"
+          }
+        },
+        {
+          "client_id": "385959227937-vscibhl01fveui04s1scv5vomp5vvfd4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.visionisprimary.digitaldatatree",
+            "certificate_hash": "18d5ec29e81e249cb3c7f44e6f5d33faa6d1f7d0"
+          }
+        },
+        {
           "client_id": "385959227937-i75v5a6bni96gohgsv5ked5pc8g7imuv.apps.googleusercontent.com",
           "client_type": 3
         }
