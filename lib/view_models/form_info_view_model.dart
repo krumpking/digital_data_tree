@@ -24,7 +24,8 @@ class FormInfoViewModel extends ChangeNotifier {
       info[currentIndex] = {
         'label': newInfo['label'],
         'info': newInfo['info'],
-        'element': newInfo['element']
+        'element': newInfo['element'],
+        'filePath': newInfo['filePath']
       };
     } else {
       info.add(newInfo);
