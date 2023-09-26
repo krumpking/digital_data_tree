@@ -25,6 +25,7 @@ class SembastInfoService extends InfoRepository {
           descr: info.descr,
           dateCreated: infoList[0].dateCreated,
           editorId: infoList[0].editorId,
+          adminId: infoList[0].adminId,
           encryption: 1,
           infoId: infoList[0].infoId,
           info: currInfo);

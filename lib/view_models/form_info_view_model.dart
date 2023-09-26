@@ -43,6 +43,7 @@ class FormInfoViewModel extends ChangeNotifier {
           descr: infoFinal[infoFinalIndex].descr,
           dateCreated: infoFinal[infoFinalIndex].dateCreated,
           editorId: infoFinal[infoFinalIndex].editorId,
+          adminId: infoFinal[infoFinalIndex].adminId,
           encryption: 1,
           infoId: infoFinal[infoFinalIndex].infoId,
           info: info.info);
@@ -69,6 +70,7 @@ class FormInfoViewModel extends ChangeNotifier {
         descr: "",
         dateCreated: '',
         editorId: '',
+        adminId: '',
         encryption: 0,
         infoId: "",
         info: []);

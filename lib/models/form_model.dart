@@ -4,6 +4,7 @@ class FormModel {
   final String id;
   final String title;
   final String creatorId;
+  final String adminId;
   final String date;
   final String desc;
   final List<dynamic> editNumbers;
@@ -13,6 +14,7 @@ class FormModel {
       {required this.id,
       required this.title,
       required this.creatorId,
+      required this.adminId,
       required this.date,
       required this.desc,
       required this.editNumbers,
@@ -22,6 +24,7 @@ class FormModel {
     return {
       'id': id,
       'creatorId': creatorId,
+      'adminId': adminId,
       'date': date,
       'title': title,
       'desc': desc,
@@ -35,6 +38,7 @@ class FormModel {
       id: map['id'],
       title: map['title'],
       creatorId: map['creatorId'],
+      adminId: map['adminId'],
       date: map['date'],
       desc: map['desc'],
       editNumbers: map['editNumbers'],

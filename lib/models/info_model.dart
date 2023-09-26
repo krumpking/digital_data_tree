@@ -8,22 +8,24 @@ class Info {
   final String dateCreated;
   final List<dynamic> info;
   final String editorId;
+  final String adminId;
 
-  Info({
-    this.title,
-    this.descr,
-    required this.encryption,
-    required this.infoId,
-    required this.dateCreated,
-    required this.info,
-    required this.editorId,
-  });
+  Info(
+      {this.title,
+      this.descr,
+      required this.encryption,
+      required this.infoId,
+      required this.dateCreated,
+      required this.info,
+      required this.editorId,
+      required this.adminId});
 
   Map<String, dynamic> toMap() {
     return {
       'title': title,
       'descr': descr,
       'infoId': infoId,
+      'adminId': adminId,
       'encryption': encryption,
       'dateCreated': dateCreated,
       'info': info.map((e) => jsonEncode(e)).toList(),
@@ -36,6 +38,7 @@ class Info {
       title: map['title'],
       descr: map['descr'],
       infoId: map['infoId'],
+      adminId: map['adminId'],
       encryption: map['encryption'],
       dateCreated: map['dateCreated'],
       info: map['info'].map((e) => jsonDecode(e) as Object).toList(),

@@ -5,5 +5,7 @@ abstract class FormRepository {
 
   Future deleteForm(FormModel form);
 
+  Future deleteAllForms();
+
   Future<List<dynamic>> getForms();
 }

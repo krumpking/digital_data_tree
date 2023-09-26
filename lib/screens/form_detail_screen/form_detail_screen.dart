@@ -213,7 +213,8 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
         infoId: widget.form.id,
         dateCreated: format.format(date),
         info: containerList,
-        editorId: widget.form.creatorId);
+        editorId: widget.form.creatorId,
+        adminId: widget.form.adminId);
 
     // // Add to provider  Version 2 Work
     // if (context.mounted) {
@@ -257,6 +258,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
       'dateCreated': info[0].dateCreated,
       'info': info[0].info,
       'editorId': info[0].editorId,
+      'adminId': info[0].adminId,
     };
 
     for (var i = 0; i < info[0].info.length; i++) {
@@ -305,6 +307,7 @@ class _FormDetailScreenState extends State<FormDetailScreen> {
         'dateCreated': info[0].dateCreated,
         'info': currentInfo,
         'editorId': info[0].editorId,
+        'adminId': info[0].adminId
       };
 
       db.collection("data").doc(id).update(dataUpdate).then((value) async {

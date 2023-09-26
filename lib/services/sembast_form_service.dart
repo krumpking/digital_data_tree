@@ -26,9 +26,13 @@ class SembastFormService extends FormRepository {
 
   @override
   Future deleteForm(FormModel form) async {
-    // await _store.delete(_database);
     var filter = Filter.matches('id', form.id);
     var finder = Finder(filter: filter);
     return await _store.delete(_database, finder: finder);
+  }
+
+  @override
+  Future deleteAllForms() async {
+    await _store.delete(_database);
   }
 }
